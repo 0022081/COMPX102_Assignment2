@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Assignment2
 {
-    internal class Player
+    class Player
     {
 
         // Holds the name of the player

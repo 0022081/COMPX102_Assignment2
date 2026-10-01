@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dice.cs" />
     <Compile Include="Dino.cs" />
     <Compile Include="Game.cs">
       <SubType>Form</SubType>

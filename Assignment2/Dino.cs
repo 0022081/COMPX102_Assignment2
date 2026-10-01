@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Assignment2
 {
-    internal class Dino
+    class Dino
     {
         // Holds the species of the dinosaur
         protected string species;

@@ -16,7 +16,7 @@ namespace Assignment2
         // List of players in game
         List<Player> players = new List<Player>();
         // List of dino objects in game
-        List<Dino> dinos = new List<Dino>();
+        List<Dino> mainDinosList = new List<Dino>();
         // True if it's player 1's turn, false if it's player 2's turn
         public bool playerTurn = true; 
 
@@ -43,16 +43,34 @@ namespace Assignment2
             // Add players to the list
             players.Add(player1);
             players.Add(player2);
-            // Create dino objects and add them to the list
-            dinos.Add(new Dino("T-Rex"));
-            dinos.Add(new Dino("Triceratops"));
-            dinos.Add(new Dino("Velociraptor"));
-            dinos.Add(new Dino("Stegosaurus"));
-            dinos.Add(new Dino("Brachiosaurus"));
+
+            // Creat 8 dino objects of each species and add them to the mainDinosList
+
+            for (int i = 0; i < 8; i++)
+            {
+                mainDinosList.Add(new Dino("T-Rex"));
+                mainDinosList.Add(new Dino("Triceratops"));
+                mainDinosList.Add(new Dino("Velociraptor"));
+                mainDinosList.Add(new Dino("Stegosaurus"));
+            }
             // Display the first player's turn
-            UpdateTurnLabel();
+            UpdateTurn();
         }
 
-
+        /// <summary>
+        /// Updates the which player's turn it is.
+        /// </summary>
+        public void UpdateTurn()
+        {
+            // Update the label to show which player's turn it is
+            if (playerTurn)
+            {
+                lblTurn.Text = "Player 1's Turn";
+            }
+            else
+            {
+                lblTurn.Text = "Player 2's Turn";
+            }
+        }
     }
 }
