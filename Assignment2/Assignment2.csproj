@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Dice.cs" />
     <Compile Include="Dino.cs" />
+    <Compile Include="ForestPen.cs" />
     <Compile Include="Game.cs">
       <SubType>Form</SubType>
     </Compile>

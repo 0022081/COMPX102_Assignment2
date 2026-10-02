@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace Assignment2
 {
@@ -61,5 +63,48 @@ namespace Assignment2
             this.isTurn = isTurn;
             this.points = points;
         }
+
+
+        public void ChooseDinoHand(List<Dino> mainDinosList)
+        {
+            // Choose 6 random dino objects from the mainDinosList and add them to the player's dinoHandList
+            Random rand = new Random();
+            for (int i = 0; i < 6; i++)
+            {
+                int index = rand.Next(mainDinosList.Count);
+                Dino chosenDino = mainDinosList[index];
+                dinoHandList.Add(chosenDino);
+                mainDinosList.RemoveAt(index);
+            }
+        }
+
+        public void PlaceDinoInPen(Pen pen, MouseEventArgs e)
+        {
+            foreach(Dino dino in dinoHandList)
+            {
+                if (dino.IsClicked(e.X, e.Y))
+                {
+                    // Place the dino in the specified pen if allowed
+                    if (pen.DinoAllowed)
+                    {
+                        pen.addDino(dino);
+                        dinoHandList.Remove(dino);
+                    }
+                }
+            }
+
+        }
+
+        public void DrawDinoHand(Graphics g)
+        {
+            // Draw the dino objects in the player's dinoHandList on the graphics object
+            for (int i = 0; i < dinoHandList.Count; i++)
+            {
+                Dino dino = dinoHandList[i];
+                dino.Draw(g);
+            }
+        }
+
+
     }
 }

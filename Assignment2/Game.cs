@@ -13,12 +13,17 @@ namespace Assignment2
 {
     public partial class Game : Form
     {
+        // Dice object for rolling the dice
+        Dice dice = new Dice();
         // List of players in game
         List<Player> players = new List<Player>();
         // List of dino objects in game
         List<Dino> mainDinosList = new List<Dino>();
         // True if it's player 1's turn, false if it's player 2's turn
-        public bool playerTurn = true; 
+        public bool playerTurn = true;
+
+        //Max dinos for each pen
+        public const int MAX_DINOS_FOREST = 8;
 
 
 
@@ -28,6 +33,7 @@ namespace Assignment2
         public Game()
         {
             InitializeComponent();
+            Game_Load(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -45,16 +51,18 @@ namespace Assignment2
             players.Add(player2);
 
             // Creat 8 dino objects of each species and add them to the mainDinosList
-
             for (int i = 0; i < 8; i++)
             {
                 mainDinosList.Add(new Dino("T-Rex"));
                 mainDinosList.Add(new Dino("Triceratops"));
                 mainDinosList.Add(new Dino("Velociraptor"));
                 mainDinosList.Add(new Dino("Stegosaurus"));
+                mainDinosList.Add(new Dino("Allosaurus"));
+                mainDinosList.Add(new Dino("Dilophosaurus"));
+
             }
             // Display the first player's turn
-            UpdateTurn();
+            UpdateTurn(MouseEventArgs e);
         }
 
         /// <summary>
@@ -66,11 +74,28 @@ namespace Assignment2
             if (playerTurn)
             {
                 lblTurn.Text = "Player 1's Turn";
+                // enable the player to roll the dice and place a dino in a pen
+                string rollResult = dice.Roll();
+                // Display the roll result in a message box
+                MessageBox.Show($"Player 1 rolled: {rollResult}");
+                // Allow player 1 to place a dino in any pen
+                players[0].PlaceDinoInPen(MouseEventArgs e)
+
             }
             else
             {
                 lblTurn.Text = "Player 2's Turn";
             }
+        }
+
+        /// <summary>
+        /// Handles the click event for exiting the game. Closes application.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace Assignment2
 {
@@ -10,6 +11,9 @@ namespace Assignment2
     {
         // Holds the species of the dinosaur
         protected string species;
+
+        protected int xPos;
+        protected int yPos;
 
 
         /// <summary>
@@ -21,6 +25,18 @@ namespace Assignment2
             set { species = value; }
         }
 
+        public int XPos
+        {
+            get { return xPos; }
+            set { xPos = value; }
+        }
+
+        public int YPos
+        {
+            get { return yPos; }
+            set { yPos = value; }
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Dino"/> class.
         /// </summary>
@@ -30,10 +46,44 @@ namespace Assignment2
             this.species = species;
         }
 
-        public void Draw(Graphics g, int x, int y)
+        public bool IsClicked(int mouseX, int mouseY)
         {
-            // Draw the dinosaur species as text
-            
+            // Check if the mouse is clicked on the dinosaur box
+            if (mouseX >= XPos && mouseX <= XPos + 50 && mouseY >= YPos && mouseY <= YPos + 50)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public void Draw(Graphics g)
+        {
+            // Draw the dinosaur species as different coloured boxes on the graphics object
+            Brush brush;
+            switch (species.ToLower())
+            {
+                case "t-rex":
+                    brush = Brushes.Red;
+                    break;
+                case "triceratops":
+                    brush = Brushes.Green;
+                    break;
+                case "velociraptor":
+                    brush = Brushes.Blue;
+                    break;
+                case "stegosaurus":
+                    brush = Brushes.Orange;
+                    break;
+                default:
+                    brush = Brushes.Gray;
+                    break;
+            }
+
+            g.FillRectangle(brush, XPos, YPos, 50, 50);
+
         }
     }
 }
