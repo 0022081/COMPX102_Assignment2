@@ -12,8 +12,10 @@ namespace Assignment2
         // Holds the name of the pen
         protected string name;
         // Holds the height and width of the pen
-        protected const int HEIGHT = 10;
-        protected const int WIDTH = 10;
+        protected const int HEIGHT = 200;
+        protected const int WIDTH = 200;
+        protected const int XPos = 0;
+        protected const int YPos = 0;
         // Stores the list of dino objects in the pen
         protected List<Dino> dinoList = new List<Dino>();
         // Stores the points of the pen
@@ -89,22 +91,40 @@ namespace Assignment2
             this.dinoAllowed = true;
         }
 
+        // Assign x and y values for all the dinos in the pen based on their index in the list
+        public void assignDinoPositions(int x, int y)
+        {
+            // Move the dinos added to pen along x coordinates for forest class
+            for (int i = 0; i < dinoList.Count; i++)
+            {
+                dinoList[i].XPos = x + (i * 50);
+                dinoList[i].YPos = y + 20;
+
+                // check if dino out of bounds of pen, if so move to next row
+                if (dinoList[i].XPos > x + WIDTH - 50)
+                {
+                    dinoList[i].XPos = x + ((i % 4) * 50);
+                    dinoList[i].YPos = y + 70;
+                }
+            }
+        }
+
         /// <summary>
         /// Calculates the points of the pen based on the dinos in it
         /// </summary>
         /// <returns></returns>
-        public abstract int calculatePoints();
+        public abstract int CalculatePoints();
 
         /// <summary>
         /// Adds a dino to the pen if allowed
         /// </summary>
         /// <param name="dino"></param>
-        public virtual void addDino(Dino dino)
+        public virtual void AddDino(Dino dino)
         {
             if (dinoList.Count < maxDinos)
             {
                 dinoList.Add(dino);
-                points = calculatePoints();
+                assignDinoPositions(XPos, YPos);
             }
             else
             {
@@ -118,17 +138,17 @@ namespace Assignment2
         /// <param name="g"></param>
         /// <param name="x"></param>
         /// <param name="y"></param>
-        public virtual void Draw(Graphics g, int x, int y)
+        public virtual void Draw(Graphics g)
         {
             // Draw the pen as a rectangle
-            g.DrawRectangle(Pens.Black, x, y, WIDTH, HEIGHT);
+            g.DrawRectangle(Pens.Black, XPos, YPos, WIDTH, HEIGHT);
             // Draw the name of the pen
-            g.DrawString(name, new Font("Arial", 8), Brushes.Black, x + 2, y + 2);
+            g.DrawString(name, new Font("Arial", 8), Brushes.Black, XPos + 2, YPos + 2);
             // Draw the dino species in the pen
             for (int i = 0; i < dinoList.Count; i++)
             {
-                dinoList[i].Draw(g, x + 2, y + 12 + (i * 12));
-
+                Dino dino = dinoList[i];
+                dino.Draw(g);
             }
         }
     }

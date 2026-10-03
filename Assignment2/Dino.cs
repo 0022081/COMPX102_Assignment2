@@ -15,6 +15,8 @@ namespace Assignment2
         protected int xPos;
         protected int yPos;
 
+        protected const int DINO_SIZE = 20;
+
 
         /// <summary>
         /// Gets or sets the species of the dinosaur.
@@ -41,11 +43,21 @@ namespace Assignment2
         /// Initializes a new instance of the <see cref="Dino"/> class.
         /// </summary>
         /// <param name="species"></param>
-        public Dino(string species)
+        /// <param name="xPos"></param>
+        /// <param name="yPos"></param>
+        public Dino(string species, int xPos, int yPos)
         {
             this.species = species;
+            this.xPos = xPos;
+            this.yPos = yPos;
         }
 
+        /// <summary>
+        /// Determines whether the dinosaur is clicked based on the mouse coordinates.
+        /// </summary>
+        /// <param name="mouseX"></param>
+        /// <param name="mouseY"></param>
+        /// <returns></returns>
         public bool IsClicked(int mouseX, int mouseY)
         {
             // Check if the mouse is clicked on the dinosaur box
@@ -59,6 +71,10 @@ namespace Assignment2
             }
         }
 
+        /// <summary>
+        /// Draws the dinosaur on the provided graphics object.
+        /// </summary>
+        /// <param name="g"></param>
         public void Draw(Graphics g)
         {
             // Draw the dinosaur species as different coloured boxes on the graphics object
@@ -82,7 +98,7 @@ namespace Assignment2
                     break;
             }
 
-            g.FillRectangle(brush, XPos, YPos, 50, 50);
+            g.FillRectangle(brush, XPos, YPos, DINO_SIZE, DINO_SIZE);
 
         }
     }

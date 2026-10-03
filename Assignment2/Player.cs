@@ -64,7 +64,10 @@ namespace Assignment2
             this.points = points;
         }
 
-
+        /// <summary>
+        /// Chooses 6 random dino objects from the mainDinosList and adds them to the player's dinoHandList.
+        /// </summary>
+        /// <param name="mainDinosList"></param>
         public void ChooseDinoHand(List<Dino> mainDinosList)
         {
             // Choose 6 random dino objects from the mainDinosList and add them to the player's dinoHandList
@@ -73,29 +76,46 @@ namespace Assignment2
             {
                 int index = rand.Next(mainDinosList.Count);
                 Dino chosenDino = mainDinosList[index];
+                // change dino's position to be in the player's hand area (e.g., x=50, y=50)
+                chosenDino.XPos = 50 + (i * 40); // Adjust the x position based on the index
+                chosenDino.YPos = 50; // Set the y position
                 dinoHandList.Add(chosenDino);
                 mainDinosList.RemoveAt(index);
             }
         }
 
+        /// <summary>
+        /// Places a dino from the player's hand into the specified pen if the dino is clicked and the pen allows dinos.
+        /// </summary>
+        /// <param name="pen"></param>
+        /// <param name="e"></param>
         public void PlaceDinoInPen(Pen pen, MouseEventArgs e)
         {
-            foreach(Dino dino in dinoHandList)
+            // Iterate backwards so we can safely remove items while iterating
+            for (int i = dinoHandList.Count - 1; i >= 0; i--)
             {
+                Dino dino = dinoHandList[i];
                 if (dino.IsClicked(e.X, e.Y))
                 {
                     // Place the dino in the specified pen if allowed
                     if (pen.DinoAllowed)
                     {
-                        pen.addDino(dino);
-                        dinoHandList.Remove(dino);
+                        pen.AddDino(dino);
+                        dinoHandList.RemoveAt(i);
                     }
+                    // We handled the click on one dino; stop further processing
+                    break;
                 }
             }
 
         }
 
-        public void DrawDinoHand(Graphics g)
+        /// <summary>
+        /// Draws the dino objects in the player's dinoHandList on the provided graphics object.
+        /// </summary>
+        /// <param name="g"></param>
+        /// <param name="pictureBox"></param>
+        public void DrawDinoHand(Graphics g, PictureBox pictureBox)
         {
             // Draw the dino objects in the player's dinoHandList on the graphics object
             for (int i = 0; i < dinoHandList.Count; i++)

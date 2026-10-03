@@ -8,6 +8,8 @@ namespace Assignment2
 {
     class ForestPen : Pen
     {
+        protected const int XPos = 20;
+        protected const int YPos = 20;
 
         /// <summary>
         /// Initializes a new instance of the ForestPen class.
@@ -24,7 +26,7 @@ namespace Assignment2
             this.maxDinos = maxDinos;
         }
 
-        public override int calculatePoints()
+        public override int CalculatePoints()
         {
             // Calculate points based on the number of dinos in the pen (does not care about species)
             Points = DinoList.Count;

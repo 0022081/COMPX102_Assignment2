@@ -52,6 +52,7 @@
             this.pictureBoxBoard.Size = new System.Drawing.Size(1421, 719);
             this.pictureBoxBoard.TabIndex = 0;
             this.pictureBoxBoard.TabStop = false;
+            this.pictureBoxBoard.Click += new System.EventHandler(this.pictureBoxBoard_Click);
             // 
             // pictureBoxPlayer1Hand
             // 
@@ -61,6 +62,7 @@
             this.pictureBoxPlayer1Hand.Size = new System.Drawing.Size(425, 140);
             this.pictureBoxPlayer1Hand.TabIndex = 1;
             this.pictureBoxPlayer1Hand.TabStop = false;
+            this.pictureBoxPlayer1Hand.Click += new System.EventHandler(this.pictureBoxPlayer1Hand_Click);
             // 
             // pictureBoxPlayer2Hand
             // 
@@ -70,6 +72,7 @@
             this.pictureBoxPlayer2Hand.Size = new System.Drawing.Size(425, 140);
             this.pictureBoxPlayer2Hand.TabIndex = 2;
             this.pictureBoxPlayer2Hand.TabStop = false;
+            this.pictureBoxPlayer2Hand.Click += new System.EventHandler(this.pictureBoxPlayer2Hand_Click);
             // 
             // menuStrip1
             // 
@@ -79,7 +82,7 @@
             this.menuToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1447, 33);
+            this.menuStrip1.Size = new System.Drawing.Size(1447, 36);
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -89,8 +92,8 @@
             this.fileToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
-            this.menuToolStripMenuItem.Size = new System.Drawing.Size(73, 29);
-            this.menuToolStripMenuItem.Text = "Menu";
+            this.menuToolStripMenuItem.Size = new System.Drawing.Size(54, 29);
+            this.menuToolStripMenuItem.Text = "File";
             // 
             // fileToolStripMenuItem
             // 
