@@ -46,21 +46,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Board.cs" />
     <Compile Include="Dice.cs" />
     <Compile Include="Dino.cs" />
+    <Compile Include="DinoBag.cs" />
+    <Compile Include="DinoPenCondition.cs" />
+    <Compile Include="DinoSpecies.cs" />
     <Compile Include="ForestPen.cs" />
-    <Compile Include="Game.cs">
+    <Compile Include="Game.cs" />
+    <Compile Include="Game_form.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Game.Designer.cs">
-      <DependentUpon>Game.cs</DependentUpon>
+    <Compile Include="Game_form.Designer.cs">
+      <DependentUpon>Game_form.cs</DependentUpon>
     </Compile>
     <Compile Include="Pen.cs" />
+    <Compile Include="PlacementCondition.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Game.resx">
-      <DependentUpon>Game.cs</DependentUpon>
+    <Compile Include="River.cs" />
+    <EmbeddedResource Include="Game_form.resx">
+      <DependentUpon>Game_form.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

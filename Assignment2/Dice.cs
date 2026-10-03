@@ -8,17 +8,23 @@ namespace Assignment2
 {
     class Dice
     {
-        // Holds the list of roll types for the dice
-        protected List<string> rollTypes = new List<string> { "woodlands", "grasslands", "restrooms", "food court", "empty pen", "t-rex"};
+        /// <summary>
+        /// Holds the list of roll types for the dice
+        /// </summary>
+        protected List<PlacementCondition> rollTypes = new List<PlacementCondition>
+        {
+            PlacementCondition.Woodlands,
+            PlacementCondition.Grasslands,
+            PlacementCondition.Restrooms,
+            PlacementCondition.FoodCourt,
+            PlacementCondition.EmptyPen,
+            PlacementCondition.T_Rex
+        };
 
         /// <summary>
-        /// Gets or sets the list of roll types for the dice.
+        /// Holds the current placement condition rolled by the dice.
         /// </summary>
-        public List<string> RollTypes
-        {
-            get { return rollTypes; }
-            set { rollTypes = value; }
-        }
+        protected PlacementCondition currentCondition = PlacementCondition.Woodlands;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Dice"/> class.
@@ -31,14 +37,13 @@ namespace Assignment2
         /// <summary>
         /// Rolls the dice and returns a random roll type from the list of roll types.
         /// </summary>
-        /// <returns>string of the rolled type</returns>
-        public string Roll()
+        /// <returns>PlacementCondition of the rolled type</returns>
+        public PlacementCondition Roll()
         {
-            // Generate a random number between 0 and the number of roll types
             Random rand = new Random();
             int rollIndex = rand.Next(rollTypes.Count);
-            // Return the roll type corresponding to the random number
-            return rollTypes[rollIndex];
+            currentCondition = rollTypes[rollIndex];
+            return currentCondition;
         }
     }
 }

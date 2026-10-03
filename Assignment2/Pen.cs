@@ -12,16 +12,14 @@ namespace Assignment2
         // Holds the name of the pen
         protected string name;
         // Holds the height and width of the pen
-        protected const int HEIGHT = 200;
-        protected const int WIDTH = 200;
-        protected const int XPos = 0;
-        protected const int YPos = 0;
+        protected int height;
+        protected int width;
+        protected int xPos;
+        protected int yPos;
         // Stores the list of dino objects in the pen
         protected List<Dino> dinoList = new List<Dino>();
         // Stores the points of the pen
-        protected int points;
-        // Stores whether the dino being added is allowed or not
-        protected bool dinoAllowed;
+        protected int points = 0;
         // Stores the side of the board the pen is (e.g. "Restroom" or "Cafeteria")
         protected string boardSide;
         // Stores the style of the pen (e.g. "Woodlands" or "Grasslands")
@@ -37,11 +35,23 @@ namespace Assignment2
         }
         public int Height
         {
-            get { return HEIGHT; }
+            get { return height; }
+            set { height = value; }
         }
         public int Width
         {
-            get { return WIDTH; }
+            get { return width; }
+            set { width = value; }
+        }
+        public int XPos
+        {
+            get { return xPos; }
+            set { xPos = value; }
+        }
+        public int YPos
+        {
+            get { return yPos; }
+            set { yPos = value; }
         }
         public List<Dino> DinoList
         {
@@ -52,11 +62,6 @@ namespace Assignment2
         {
             get { return points; }
             set { points = value; }
-        }
-        public bool DinoAllowed
-        {
-            get { return dinoAllowed; }
-            set { dinoAllowed = value; }
         }
         public string BoardSide
         {
@@ -81,14 +86,20 @@ namespace Assignment2
         /// <param name="boardSide"></param>
         /// <param name="penStyle"></param>
         /// <param name="maxDinos"></param>
-        public Pen(string name, string boardSide, string penStyle, int maxDinos)
+        /// <param name="HEIGHT"></param>
+        /// <param name="WIDTH"></param>
+        /// <param name="xPos"></param>
+        /// <param name="yPos"></param>
+        public Pen(string name, string boardSide, string penStyle, int maxDinos, int HEIGHT, int WIDTH, int xPos, int yPos)
         {
-            this.name = name;
-            this.boardSide = boardSide;
-            this.penStyle = penStyle;
-            this.maxDinos = maxDinos;
-            this.points = 0;
-            this.dinoAllowed = true;
+            this.Name = name;
+            this.BoardSide = boardSide;
+            this.PenStyle = penStyle;
+            this.MaxDinos = maxDinos;
+            this.Height = HEIGHT;
+            this.Width = WIDTH;
+            this.XPos = xPos;
+            this.YPos = yPos;
         }
 
         // Assign x and y values for all the dinos in the pen based on their index in the list
@@ -110,27 +121,40 @@ namespace Assignment2
         }
 
         /// <summary>
+        /// Checks if the pen has a T-Rex in it
+        /// </summary>
+        /// <returns></returns>
+        public bool HasTRex()
+        {
+            foreach (Dino dino in dinoList)
+            {
+                if (dino.Species == DinoSpecies.T_Rex)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
         /// Calculates the points of the pen based on the dinos in it
         /// </summary>
         /// <returns></returns>
         public abstract int CalculatePoints();
 
         /// <summary>
+        /// Checks if a dino can be placed in the pen based on the pen's condition and the dino's species
+        /// </summary>
+        /// <param name="dino"></param>
+        /// <param name="condition"></param>
+        /// <returns></returns>
+        public abstract bool CanPlaceDino(Dino dino, PlacementCondition condition);
+
+        /// <summary>
         /// Adds a dino to the pen if allowed
         /// </summary>
         /// <param name="dino"></param>
-        public virtual void AddDino(Dino dino)
-        {
-            if (dinoList.Count < maxDinos)
-            {
-                dinoList.Add(dino);
-                assignDinoPositions(XPos, YPos);
-            }
-            else
-            {
-                dinoAllowed = false;
-            }
-        }
+        public abstract void AddDino(Dino dino);
 
         /// <summary>
         /// Draws the pen and its contents on the graphics object
@@ -141,9 +165,7 @@ namespace Assignment2
         public virtual void Draw(Graphics g)
         {
             // Draw the pen as a rectangle
-            g.DrawRectangle(Pens.Black, XPos, YPos, WIDTH, HEIGHT);
-            // Draw the name of the pen
-            g.DrawString(name, new Font("Arial", 8), Brushes.Black, XPos + 2, YPos + 2);
+            g.DrawRectangle(Pens.Black, XPos, YPos, Width, Height);
             // Draw the dino species in the pen
             for (int i = 0; i < dinoList.Count; i++)
             {

@@ -10,18 +10,17 @@ namespace Assignment2
     class Dino
     {
         // Holds the species of the dinosaur
-        protected string species;
-
+        protected DinoSpecies species;
+        // Holds the x and y position of the dinosaur on the board
         protected int xPos;
         protected int yPos;
-
+        // Holds the size of the dinosaur box
         protected const int DINO_SIZE = 20;
-
 
         /// <summary>
         /// Gets or sets the species of the dinosaur.
         /// </summary>
-        public string Species
+        public DinoSpecies Species
         {
             get { return species; }
             set { species = value; }
@@ -45,7 +44,7 @@ namespace Assignment2
         /// <param name="species"></param>
         /// <param name="xPos"></param>
         /// <param name="yPos"></param>
-        public Dino(string species, int xPos, int yPos)
+        public Dino(DinoSpecies species, int xPos, int yPos)
         {
             this.species = species;
             this.xPos = xPos;
@@ -79,25 +78,24 @@ namespace Assignment2
         {
             // Draw the dinosaur species as different coloured boxes on the graphics object
             Brush brush;
-            switch (species.ToLower())
+            switch (species)
             {
-                case "t-rex":
+                case DinoSpecies.T_Rex:
                     brush = Brushes.Red;
                     break;
-                case "triceratops":
+                case DinoSpecies.Triceratops:
                     brush = Brushes.Green;
                     break;
-                case "velociraptor":
+                case DinoSpecies.Velociraptor:
                     brush = Brushes.Blue;
                     break;
-                case "stegosaurus":
+                case DinoSpecies.Stegosaurus:
                     brush = Brushes.Orange;
                     break;
                 default:
                     brush = Brushes.Gray;
                     break;
             }
-
             g.FillRectangle(brush, XPos, YPos, DINO_SIZE, DINO_SIZE);
 
         }

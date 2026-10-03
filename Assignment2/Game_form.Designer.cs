@@ -1,6 +1,6 @@
 ﻿namespace Assignment2
 {
-    partial class Game
+    partial class Game_form
     {
         /// <summary>
         /// Required designer variable.
@@ -52,7 +52,6 @@
             this.pictureBoxBoard.Size = new System.Drawing.Size(1421, 719);
             this.pictureBoxBoard.TabIndex = 0;
             this.pictureBoxBoard.TabStop = false;
-            this.pictureBoxBoard.Click += new System.EventHandler(this.pictureBoxBoard_Click);
             // 
             // pictureBoxPlayer1Hand
             // 
@@ -61,9 +60,7 @@
             this.pictureBoxPlayer1Hand.Name = "pictureBoxPlayer1Hand";
             this.pictureBoxPlayer1Hand.Size = new System.Drawing.Size(425, 140);
             this.pictureBoxPlayer1Hand.TabIndex = 1;
-            this.pictureBoxPlayer1Hand.TabStop = false;
-            this.pictureBoxPlayer1Hand.Click += new System.EventHandler(this.pictureBoxPlayer1Hand_Click);
-            // 
+            this.pictureBoxPlayer1Hand.TabStop = false;            // 
             // pictureBoxPlayer2Hand
             // 
             this.pictureBoxPlayer2Hand.BackColor = System.Drawing.SystemColors.ControlDark;
@@ -72,7 +69,6 @@
             this.pictureBoxPlayer2Hand.Size = new System.Drawing.Size(425, 140);
             this.pictureBoxPlayer2Hand.TabIndex = 2;
             this.pictureBoxPlayer2Hand.TabStop = false;
-            this.pictureBoxPlayer2Hand.Click += new System.EventHandler(this.pictureBoxPlayer2Hand_Click);
             // 
             // menuStrip1
             // 

@@ -1,35 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Assignment2
 {
-    public partial class Game : Form
+    internal class Game
     {
-        private List<PictureBox> targetPictureBoxes = new List<PictureBox>();
-
         // Dice object for rolling the dice
-        Dice dice = new Dice();
+        protected Dice dice = new Dice();
         // List of players in game
-        List<Player> players = new List<Player>();
+        protected List<Player> players = new List<Player>();
         // List of dino objects in game
-        List<Dino> mainDinosList = new List<Dino>();
-        // List of pens in game
-        List<Pen> pensList = new List<Pen>();
-        // True if it's player 1's turn, false if it's player 2's turn
-        public bool playerTurn = true;
+        protected DinoBag bag = new DinoBag();
+        // Number of rounds and turns in the game
+        protected int roundNumber = 1;
+        // Number of turns in the game
+        protected int turnNumber = 1;
+        // Holds the current roll condition from the dice roll
+        protected PlacementCondition currentCondition;
+        protected bool player1Turn = false; // True if it's player 1's turn, false if it's player 2's turn
+
+
 
         //Max dinos for each pen
-        public const int MAX_DINOS_FOREST = 8;
-        // Pen instances
-        private ForestPen forestPen;
+        protected const int MAX_DINOS_FOREST = 8;
 
 
 
@@ -38,10 +36,6 @@ namespace Assignment2
         /// </summary>
         public Game()
         {
-            InitializeComponent();
-            // wire up load and mouse handlers
-            this.Load += Game_Load;
-            this.MouseClick += Game_MouseClick;
         }
 
         /// <summary>
@@ -49,7 +43,7 @@ namespace Assignment2
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void Game_Load(object sender, EventArgs e)
+        public void LoadGame(object sender, EventArgs e)
         {
             // Add all picture boxes to the targetPictureBoxes list for easy access
             targetPictureBoxes.Add(pictureBoxPlayer1Hand);
@@ -63,17 +57,6 @@ namespace Assignment2
             players.Add(player1);
             players.Add(player2);
 
-            // Creat 8 dino objects of each species and add them to the mainDinosList
-            for (int i = 0; i < 8; i++)
-            {
-                mainDinosList.Add(new Dino("T-Rex", 0, 0));
-                mainDinosList.Add(new Dino("Triceratops", 0, 0));
-                mainDinosList.Add(new Dino("Velociraptor", 0, 0));
-                mainDinosList.Add(new Dino("Stegosaurus", 0, 0));
-                mainDinosList.Add(new Dino("Allosaurus", 0, 0));
-                mainDinosList.Add(new Dino("Dilophosaurus", 0, 0));
-
-            }
             // create pens
             forestPen = new ForestPen("Forest", "Left", "Woodlands", MAX_DINOS_FOREST);
             pensList.Add(forestPen);
@@ -95,16 +78,63 @@ namespace Assignment2
 
         }
 
-        /// <summary>
-        /// Handles the Paint event of the Game control. Draws the pens and players' dino hands on the game board.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Game_Paint()
+        public void PlayRound()
         {
-            DrawPensToPictureBoxBoard();
-            DrawHandsToPictureBoxes();
+            // Each player has 3 turns per round and 4 rounds in the game
+            for (int i = 0; i < 3; i++)
+            {
+                // Each player takes a turn
+                foreach (Player player in players)
+                {
+                    // Switch player turn bool to keep track whos turn it is
+                    player1Turn = !player1Turn;
+                    // Allow both players to have a turn
+                    PlayTurn();
+                }
+            }
+            // After both players have taken their turn, increment the round number
+            roundNumber++;
         }
+
+        /// <summary>
+        /// Runs the current turn for the player's, allowing the non roller player to place a dino in a pen based on the current placement condition and the roller player to place in any pen.
+        /// </summary>
+        public void PlayTurn()
+        {
+            // Roll the dice to determine the placement condition for this turn
+            currentCondition = dice.Roll();
+            // Display the current placement condition to the players
+            MessageBox.Show($"Current Placement Condition: {currentCondition}");
+
+            if (player1Turn)
+            {
+                // If player 1's turn
+
+                // Let player 1 place dino anywhere
+                // Get dino that player clicked on from hand
+                // If player clicked on pen && pen allowed to place dino in it, place dino in that pen
+                // Let player 2 now place
+
+                // Let player 2 place dino depending on roll conditon
+                // Get dino that player clicked on from hand
+                // If player clicked on pen && pen allowed to place dino in it, place dino in that pen
+            }
+            else
+            {
+                // If player 2's turn
+                // Let player 2 place dino anywhere
+                // Get dino that player clicked on from hand
+                // If player clicked on pen && pen allowed to place dino in it, place dino in that pen
+                // Let player 1 now place
+
+                // Let player 1 place dino depending on roll conditon
+                // Get dino that player clicked on from hand
+                // If player clicked on pen && pen allowed to place dino in it, place dino in that pen
+            }
+        }
+
+
+
         /// <summary>
         /// Draws each player's dino hand into their PictureBox.Image so they are visible.
         /// </summary>
@@ -150,40 +180,13 @@ namespace Assignment2
         }
 
         /// <summary>
-        /// Updates the which player's turn it is.
-        /// </summary>
-        public void UpdateTurn()
-        {
-            // Update the label to show which player's turn it is
-            if (playerTurn)
-            {
-                lblTurn.Text = "Player 1's Turn";
-                // enable the player to roll the dice and place a dino in a pen
-                string player1RollResult = dice.Roll();
-                // Display the roll result in a message box
-                //MessageBox.Show($"Player 1 rolled: {player1RollResult}");
-                // After rolling, the player can click to place a dino. Click events are handled by Game_MouseClick.
-
-            }
-            else
-            {
-                lblTurn.Text = "Player 2's Turn";
-                string player2RollResult = dice.Roll();
-                // Display the roll result in a message box
-                //MessageBox.Show($"Player 2 rolled: {player2RollResult}");
-                // After rolling, the player can click to place a dino. Click events are handled by Game_MouseClick.
-
-            }
-        }
-
-        /// <summary>
         /// Handles the MouseClick event of the Game control. Forwards mouse clicks to the active player's placement method.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void Game_MouseClick(object sender, MouseEventArgs e)
         {
-            
+
         }
 
         private void pictureBoxPlayer1Hand_Click(object sender, EventArgs e)
@@ -212,24 +215,5 @@ namespace Assignment2
             Invalidate();
         }
 
-        private void pictureBoxPlayer2Hand_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBoxBoard_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        /// <summary>
-        /// Handles the click event for exiting the game. Closes application.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
     }
 }
