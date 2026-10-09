@@ -46,75 +46,71 @@ namespace Assignment2
             set { dinoHandList = value; }
         }
 
+        public Board Zoo
+        {
+            get { return zoo; }
+            set { zoo = value; }
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Player"/> class.
         /// </summary>
         /// <param name="name"></param>
         public Player(string name)
         {
+            // Assign player name
             this.name = name;
+
+            // Create board object
+            Zoo = new Board();
         }
 
-        /// <summary>
-        /// Select dino from player hand list and return it to be placed in a pen.
-        /// </summary>
-        /// <param name="mainDinosList"></param>
-        public Dino ChooseDino()
-        {
-            // Check if the player has any dinos in their hand
-            if (dinoHandList.Count > 0)
-            {
-                foreach(Dino dino in dinoHandList)
-                {
-                    if(dino.IsClicked(zoo.MouseX, zoo.MouseY))
-                    {
-                        // If the dino is clicked, return it
-                        return dino;
-                    }
-                }
-            }
-            else
-            {
-                // If the player has no dinos, return null
-                return null;
-            }
-            return null;
-
-        }
 
         /// <summary>
         /// Places a dino from the player's hand into the specified pen if the dino is clicked and the pen allows dinos.
         /// </summary>
-        /// <param name="pen"></param>
-        /// <param name="e"></param>
+        /// <param name="dino">Dino to place</param>
+        /// <param name="pen">Target pen</param>
         public bool PlaceDino(Dino dino, Pen pen)
         {
-            if(dino != null && pen.DinoAllowed)
+            if (dino == null || pen == null)
+                return false;
+
+            // simple capacity check - concrete pen types can additionally enforce placement rules
+            if (pen.DinoList.Count < pen.MaxDinos)
             {
                 // If the dino is clicked and the pen allows dinos, add the dino to the pen's dinoList
                 pen.AddDino(dino);
                 // Remove the dino from the player's hand
                 dinoHandList.Remove(dino);
+                // update positions for dinos inside the pen so they will draw correctly
+                pen.assignDinoPositions(pen.XPos, pen.YPos);
                 return true;
             }
-            else
-            {
-                // If the dino is not clicked or the pen does not allow dinos, do nothing
-                return false;
-            }
+
+            return false;
         }
+        
 
         /// <summary>
-        /// Draws the dino objects in the player's dinoHandList on the provided graphics object.
+        /// Draws the player's hand into the provided graphics surface. This method assigns
+        /// positions for each dino so hit-testing with their IsClicked method works using
+        /// coordinates relative to the picture box image.
         /// </summary>
-        /// <param name="g"></param>
-        /// <param name="pictureBox"></param>
-        public void DrawDinoHand(Graphics g)
+        /// <param name="g">Graphics surface for the hand image</param>
+        /// <param name="areaWidth">Width of the drawing area (use the PictureBox width)</param>
+        public void DrawDinoHand(Graphics g, int areaWidth)
         {
-            // Draw the dino objects in the player's dinoHandList on the graphics object
+            // simple layout: space dinos horizontally with a fixed spacing
+            const int spacing = 50; // matches Dino drawing size used elsewhere
+            const int margin = 10;
+
             for (int i = 0; i < dinoHandList.Count; i++)
             {
                 Dino dino = dinoHandList[i];
+                // position dino inside the hand area
+                dino.XPos = margin + (i * spacing);
+                dino.YPos = margin;
                 dino.Draw(g);
             }
         }

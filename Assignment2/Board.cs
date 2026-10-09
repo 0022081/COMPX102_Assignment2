@@ -11,6 +11,19 @@ namespace Assignment2
         protected List<Pen> penList = new List<Pen>();
         protected River river = new River();
 
+        public List<Pen> PenList
+        {
+            get { return penList; }
+            set { penList = value; }
+        }
+
+        public Board()
+        {
+            // create pens
+            ForestPen forestPen = new ForestPen("Forest", "Left", "Woodlands", 8, 100, 100, 100, 100);
+            PenList.Add(forestPen);
+        }
+
         public List<Pen> GetValidPens(Dino dino, bool condition)
         {
             // Implementation for getting valid pens based on dino and condition

@@ -112,7 +112,7 @@ namespace Assignment2
                 dinoList[i].YPos = y + 20;
 
                 // check if dino out of bounds of pen, if so move to next row
-                if (dinoList[i].XPos > x + WIDTH - 50)
+                if (dinoList[i].XPos > x + Width - 50)
                 {
                     dinoList[i].XPos = x + ((i % 4) * 50);
                     dinoList[i].YPos = y + 70;
