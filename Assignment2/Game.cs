@@ -53,13 +53,12 @@ namespace Assignment2
             Dice dice = new Dice();
             // Create dino bag object
             DinoBag dinoBag = new DinoBag();
-
         }
 
         /// <summary>
         /// Runs the current turn for the player's, allowing the non roller player to place a dino in a pen based on the current placement condition and the roller player to place in any pen.
         /// </summary>
-        public void PlayTurn()
+        public void PlayTurn(Dino selectedDino, Pen pen)
         {
             // Set the roller
             if (currentRoller == 0)
@@ -82,56 +81,18 @@ namespace Assignment2
             // Let roller place dino unrestricted
             if (currentRoller == 0)
             {
+                bool unrestricted = true;
                 AttemptPlaceDino(currentRoller, selectedDino, pen, unrestricted);
             }
-            
+
 
             // Let nonroller place dino restricted
 
-
-
-            if (roller == 0)
-            {
-                player1Turn = true;
-
-                // It is player 1's roll
-
-                // If player 1's turn
-
-                // Let player 1 place dino anywhere
-                
-                // If player clicked on pen && pen allowed to place dino in it, place dino in that pen
-                // Let player 2 now place
-
-                // Let player 2 place dino depending on roll conditon
-                // Get dino that player clicked on from hand
-                // If player clicked on pen && pen allowed to place dino in it, place dino in that pen
-
-                // Increment turn number
-                turnNumber++;
-            }
-            else
-            {
-                player1Turn = false;
-                // it is AI's roll
-
-
-                // If player 2's turn
-                // Let player 2 place dino anywhere
-                // Get dino that player clicked on from hand
-                // If player clicked on pen && pen allowed to place dino in it, place dino in that pen
-                // Let player 1 now place
-
-                // Let player 1 place dino depending on roll conditon
-                // Get dino that player clicked on from hand
-                // If player clicked on pen && pen allowed to place dino in it, place dino in that pen
-
-                // Increment turn number
-                turnNumber++;
-            }
-
+            // Increment turn
+            turnNumber++;
             // Swap player's dino hands
             SwapHands();
+            
         }
 
         /// <summary>
@@ -142,13 +103,35 @@ namespace Assignment2
 
         }
 
+
+        public bool CheckRound()
+        {
+            if (roundNumber > 4)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="roller"></param>
         public void StartRound(int roller)
         {
-            // Clear current hand lists for both players
+            if(CheckRound())
+            {
+                // Clear current hand lists for both players
+                foreach(Player player in players)
+                {
+                    player.DinoHandList.Clear();
+                    player.DinoHandList = bag.Draw(6);
+                }
+
+            }
+
             // Draw new dino hands for both players
             // Conintue with normal turns 
 
@@ -176,26 +159,17 @@ namespace Assignment2
         /// <param name="playerindex"></param>
         /// <param name="selectedDino"></param>
         /// <param name="pen"></param>
-        public void AttemptPlaceDino(int playerindex, Dino selectedDino, Pen pen)
+        public void AttemptPlaceDino(int playerindex, Dino selectedDino, Pen pen, bool unrestricted)
         {
-            // Call player method to attempt to place dino
-            players[playerindex].PlaceDino(selectedDino, pen);
-        }
+            bool valid = false;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public int GetCurrentRoller()
-        {
-            if (player1Turn)
+            valid = players[playerindex].checkDinoPlacement(selectedDino, currentCondition, pen, unrestricted);
+
+            if(valid)
             {
-                return 0;
+                players[playerindex].PlaceDino(selectedDino, pen);
             }
-            else
-            {
-                return 1;
-            }
+            
         }
     }
 

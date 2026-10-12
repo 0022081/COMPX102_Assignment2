@@ -66,6 +66,16 @@ namespace Assignment2
         }
 
 
+
+        public bool checkDinoPlacement(Dino dino, PlacementCondition condition, Pen pen, bool unrestricted)
+        {
+            if (dino == null || pen == null)
+            {
+                return false;
+            }
+            return pen.CanPlaceDino(dino, condition, unrestricted);
+        }
+
         /// <summary>
         /// Places a dino from the player's hand into the specified pen if the dino is clicked and the pen allows dinos.
         /// </summary>
@@ -75,9 +85,7 @@ namespace Assignment2
         {
             if (dino == null || pen == null)
                 return;
-
-            // simple capacity check - concrete pen types can additionally enforce placement rules
-            if (pen.DinoList.Count < pen.MaxDinos)
+            try
             {
                 // If the dino is clicked and the pen allows dinos, add the dino to the pen's dinoList
                 pen.AddDino(dino);
@@ -87,8 +95,10 @@ namespace Assignment2
                 pen.assignDinoPositions(pen.XPos, pen.YPos);
                 return;
             }
-
-            return;
+            catch
+            {
+                return;
+            }
         }
         
 

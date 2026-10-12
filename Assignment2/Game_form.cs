@@ -16,6 +16,7 @@ namespace Assignment2
         private Game game;
         // currently selected dino (from a player's hand) waiting to be placed
         private Dino selectedDino = null;
+        private Pen selectedPen = null;
         private PictureBox pictureBoxPlayer1Board;
         private Button buttonStart;
         private Button buttonRoll;
@@ -136,12 +137,7 @@ namespace Assignment2
             {
                 if (e.X >= pen.XPos && e.X <= pen.XPos + pen.Width && e.Y >= pen.YPos && e.Y <= pen.YPos + pen.Height)
                 {
-                    // Attempt placement via the game rules (enforces roller/non-roller restrictions)
-                    game.AttemptPlaceDino(selectedPlayerIndex, selectedDino, pen);
-                    
-                    // update pen dino positions and refresh display
-                    selectedDino = null;
-                    selectedPlayerIndex = -1;
+                    selectedPen = pen;
                     DisplayGame();
                 }
             }
@@ -189,7 +185,7 @@ namespace Assignment2
             }
             else
             {
-                game.PlayTurn();
+                game.PlayTurn(selectedDino, selectedPen);
             }
 
 

@@ -148,7 +148,7 @@ namespace Assignment2
         /// <param name="dino"></param>
         /// <param name="condition"></param>
         /// <returns></returns>
-        public abstract bool CanPlaceDino(Dino dino, PlacementCondition condition);
+        public abstract bool CanPlaceDino(Dino dino, PlacementCondition condition, bool unrestricted);
 
         /// <summary>
         /// Adds a dino to the pen if allowed

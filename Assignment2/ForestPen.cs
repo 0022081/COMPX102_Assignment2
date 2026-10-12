@@ -35,7 +35,7 @@ namespace Assignment2
             return Points;
         }
 
-        public override bool CanPlaceDino(Dino dino, PlacementCondition condition)
+        public override bool CanPlaceDino(Dino dino, PlacementCondition condition, bool unrestricted)
         {
             // If pen is not full and the placement condition is either Woodlands or FoodCourt, return true. Otherwise, return false.
             if (DinoList.Count >= maxDinos)
@@ -44,6 +44,11 @@ namespace Assignment2
             }
             else
             {
+                if(unrestricted)
+                {
+                    return true;
+                }
+
                 if (condition == PlacementCondition.Woodlands || condition == PlacementCondition.FoodCourt)
                 {
                     return true;
