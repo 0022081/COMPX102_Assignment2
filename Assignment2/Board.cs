@@ -24,10 +24,18 @@ namespace Assignment2
             PenList.Add(forestPen);
         }
 
-        public List<Pen> GetValidPens(Dino dino, bool condition)
+        public List<Pen> GetValidPens(Dino dino, PlacementCondition condition)
         {
-            // Implementation for getting valid pens based on dino and condition
-            return new List<Pen>();
+            List<Pen> validPens = new List<Pen>();
+            foreach (Pen pen in PenList)
+            {
+                if (pen.CanPlaceDino(dino, condition, false))
+                {
+                    validPens.Add(pen);
+                }
+            }
+
+            return validPens;
         }
 
         public bool PlaceDino(Dino dino, Pen pen)

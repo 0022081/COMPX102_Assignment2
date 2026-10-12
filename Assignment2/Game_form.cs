@@ -39,8 +39,10 @@ namespace Assignment2
             game = new Game();
             // initialize players and other game data
             game.LoadGame(this, EventArgs.Empty);
-            // Start new round
-            game.StartRound(0);
+            game.StartRound();
+            selectedDino = null;
+            selectedPen = null;
+            selectedPlayerIndex = -1;
         }
 
         public void DisplayGame()
@@ -48,12 +50,12 @@ namespace Assignment2
             // Show the game form
             this.Show();
 
-            if (pictureBoxPlayer2Hand.Image == null)
-                pictureBoxPlayer2Hand.Image = new Bitmap(pictureBoxPlayer2Hand.Width, pictureBoxPlayer2Hand.Height);
+            if (pictureBoxPlayer1Hand.Image == null)
+                pictureBoxPlayer1Hand.Image = new Bitmap(pictureBoxPlayer1Hand.Width, pictureBoxPlayer1Hand.Height);
             if (pictureBoxPlayer2Hand.Image == null)
                 pictureBoxPlayer2Hand.Image = new Bitmap(pictureBoxPlayer2Hand.Width, pictureBoxPlayer2Hand.Height);
 
-            using (Graphics g1 = Graphics.FromImage(pictureBoxPlayer2Hand.Image))
+            using (Graphics g1 = Graphics.FromImage(pictureBoxPlayer1Hand.Image))
             {
                 g1.Clear(Color.Transparent);
                 game.players[0].DrawDinoHand(g1, pictureBoxPlayer2Hand.Width);
@@ -65,33 +67,36 @@ namespace Assignment2
                 game.players[1].DrawDinoHand(g2, pictureBoxPlayer2Hand.Width);
             }
 
-            pictureBoxPlayer2Hand.Refresh();
+            // Update the player hand displays
+            pictureBoxPlayer1Hand.Refresh();
             pictureBoxPlayer2Hand.Refresh();
 
-
-            if (pictureBoxPlayer1Board.Image == null)
-                pictureBoxPlayer1Board.Image = new Bitmap(pictureBoxPlayer1Board.Width, pictureBoxPlayer1Board.Height);
+            // Draw the boards for both players
+            //pictureBoxPlayer1Board.Image = new Bitmap(Properties.Resources.Board);
             using (Graphics g = Graphics.FromImage(pictureBoxPlayer1Board.Image))
             {
-                g.Clear(Color.Transparent);
                 foreach (Pen pen in game.players[0].Zoo.PenList)
                 {
                     pen.Draw(g); // Draw each pen at its predefined location
                 }
             }
 
-            if (pictureBoxPlayer2Board.Image == null)
-                pictureBoxPlayer2Board.Image = new Bitmap(pictureBoxPlayer2Board.Width, pictureBoxPlayer2Board.Height);
+            //pictureBoxPlayer2Board.Image = new Bitmap(Properties.Resources.Board);
             using (Graphics g = Graphics.FromImage(pictureBoxPlayer2Board.Image))
             {
-                g.Clear(Color.Transparent);
-                foreach (Pen pen in game.players[0].Zoo.PenList)
+                foreach (Pen pen in game.players[1].Zoo.PenList)
                 {
                     pen.Draw(g); // Draw each pen at its predefined location
                 }
             }
+            // Update the players boards
             pictureBoxPlayer2Board.Refresh();
             pictureBoxPlayer1Board.Refresh();
+
+
+            labelTurnResult.Text = game.turnNumber.ToString() + " /6";
+            labelRoundResult.Text = game.roundNumber.ToString() + " /4";
+            buttonRoll.Enabled = game.RollerIndex == 0 && !game.HasRolled;
         }
 
         /// <summary>
@@ -105,7 +110,10 @@ namespace Assignment2
                 return;
 
             PictureBox pb = (PictureBox)sender;
-            int playerIndex = pb == pictureBoxPlayer2Hand ? 0 : 1;
+            int playerIndex = pb == pictureBoxPlayer1Hand ? 0 : 1;
+
+            if (playerIndex != 0 || !game.HasRolled)
+                return;
 
             // find which dino in the player's hand was clicked
             foreach (Dino d in game.players[playerIndex].DinoHandList)
@@ -127,10 +135,13 @@ namespace Assignment2
         /// <param name="e"></param>
         private void pictureBoxBoard_MouseClick(object sender, MouseEventArgs e)
         {
-            if (selectedDino == null || selectedPlayerIndex < 0)
+            if (selectedDino == null || selectedPlayerIndex != 0 || !game.HasRolled)
                 return;
 
-            Player p = game.players[selectedPlayerIndex];
+            if (sender != pictureBoxPlayer1Board)
+                return;
+
+            Player p = game.players[0];
 
             // check which pen was clicked on the board
             foreach (Pen pen in p.Zoo.PenList)
@@ -138,7 +149,18 @@ namespace Assignment2
                 if (e.X >= pen.XPos && e.X <= pen.XPos + pen.Width && e.Y >= pen.YPos && e.Y <= pen.YPos + pen.Height)
                 {
                     selectedPen = pen;
-                    DisplayGame();
+                    if (game.PlacePlayerDino(selectedDino, selectedPen))
+                    {
+                        selectedDino = null;
+                        selectedPen = null;
+                        selectedPlayerIndex = -1;
+                        DisplayGame();
+                    }
+                    else
+                    {
+                        MessageBox.Show("That dino cannot be placed in this pen.");
+                    }
+                    return;
                 }
             }
         }
@@ -150,12 +172,14 @@ namespace Assignment2
         {
             InitializeComponent();
             // wire mouse event handlers for selecting dinos and placing them on the board
-            pictureBoxPlayer2Hand.MouseClick += pictureBoxPlayerHand_MouseClick;
+            pictureBoxPlayer1Hand.MouseClick += pictureBoxPlayerHand_MouseClick;
             pictureBoxPlayer2Hand.MouseClick += pictureBoxPlayerHand_MouseClick;
             pictureBoxPlayer1Board.MouseClick += pictureBoxBoard_MouseClick;
             pictureBoxPlayer2Board.MouseClick += pictureBoxBoard_MouseClick;
             // wire other control events
             this.buttonNextTurn.Click += new EventHandler(this.buttonNextTurn_Click);
+            this.buttonStart.Click += new EventHandler(this.buttonStartGame_Click);
+            this.buttonRoll.Click += new EventHandler(this.buttonRoll_Click);
         }
 
         /// <summary>
@@ -165,31 +189,54 @@ namespace Assignment2
         /// <param name="e"></param>
         private void buttonNextTurn_Click(object sender, EventArgs e)
         {
-            // Check if game is running
             if (game == null)
                 return;
 
-            // Check if turn number has surpassed 3
-            if(game.turnNumber == 3)
+            if (game.RollerIndex == 0 && game.HasRolled && game.RollerPlacementComplete && !game.TurnComplete)
             {
-                // Check if round number has surpassed 4
-                if(game.roundNumber == 4)
+                if (!game.PlaceAiDino(false))
                 {
-                    // end game
-
+                    MessageBox.Show("The AI could not find a valid pen for the current roll.");
+                    return;
                 }
-                else
+
+                DisplayGame();
+
+                if (!game.TurnComplete)
                 {
-                    game.StartRound(0);
+                    return;
                 }
             }
-            else
+
+            if (!game.BeginAiTurn())
             {
-                game.PlayTurn(selectedDino, selectedPen);
+                DisplayGame();
+                return;
             }
 
-
+            labelRollResult.Text = game.CurrentCondition.ToString();
+            selectedDino = null;
+            selectedPen = null;
+            selectedPlayerIndex = -1;
             DisplayGame();
+        }
+
+        /// <summary>
+        /// Rolls the dice for the next turn
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonRoll_Click(object sender, EventArgs e)
+        {
+            if (game == null)
+                return;
+
+            if (game.RollerIndex != 0 || game.HasRolled)
+                return;
+
+            PlacementCondition condition = game.RollDice();
+            labelRollResult.Text = condition.ToString();
+            buttonRoll.Enabled = false;
         }
 
         /// <summary>
@@ -213,14 +260,14 @@ namespace Assignment2
             DisplayGame();
         }
 
+        /// <summary>
+        /// Initializes the components of the game for the game class
+        /// </summary>
         private void InitializeComponent()
         {
-            this.pictureBoxPlayer1Board = new System.Windows.Forms.PictureBox();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Game_form));
             this.buttonStart = new System.Windows.Forms.Button();
             this.buttonRoll = new System.Windows.Forms.Button();
-            this.pictureBoxPlayer1Hand = new System.Windows.Forms.PictureBox();
-            this.pictureBoxPlayer2Hand = new System.Windows.Forms.PictureBox();
-            this.pictureBoxPlayer2Board = new System.Windows.Forms.PictureBox();
             this.labelRollResult = new System.Windows.Forms.Label();
             this.labelPlayer1 = new System.Windows.Forms.Label();
             this.labelAIplayer = new System.Windows.Forms.Label();
@@ -229,20 +276,15 @@ namespace Assignment2
             this.labelTurnResult = new System.Windows.Forms.Label();
             this.labelRoundResult = new System.Windows.Forms.Label();
             this.buttonNextTurn = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlayer1Board)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlayer1Hand)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlayer2Hand)).BeginInit();
+            this.pictureBoxPlayer2Board = new System.Windows.Forms.PictureBox();
+            this.pictureBoxPlayer2Hand = new System.Windows.Forms.PictureBox();
+            this.pictureBoxPlayer1Hand = new System.Windows.Forms.PictureBox();
+            this.pictureBoxPlayer1Board = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlayer2Board)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlayer2Hand)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlayer1Hand)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlayer1Board)).BeginInit();
             this.SuspendLayout();
-            // 
-            // pictureBoxPlayer1Board
-            // 
-            this.pictureBoxPlayer1Board.InitialImage = global::Assignment2.Properties.Resources.Board;
-            this.pictureBoxPlayer1Board.Location = new System.Drawing.Point(16, 68);
-            this.pictureBoxPlayer1Board.Name = "pictureBoxPlayer1Board";
-            this.pictureBoxPlayer1Board.Size = new System.Drawing.Size(627, 568);
-            this.pictureBoxPlayer1Board.TabIndex = 0;
-            this.pictureBoxPlayer1Board.TabStop = false;
             // 
             // buttonStart
             // 
@@ -262,38 +304,14 @@ namespace Assignment2
             this.buttonRoll.Text = "Roll Dice";
             this.buttonRoll.UseVisualStyleBackColor = true;
             // 
-            // pictureBoxPlayer1Hand
-            // 
-            this.pictureBoxPlayer1Hand.Location = new System.Drawing.Point(16, 685);
-            this.pictureBoxPlayer1Hand.Name = "pictureBoxPlayer1Hand";
-            this.pictureBoxPlayer1Hand.Size = new System.Drawing.Size(627, 101);
-            this.pictureBoxPlayer1Hand.TabIndex = 4;
-            this.pictureBoxPlayer1Hand.TabStop = false;
-            // 
-            // pictureBoxPlayer2Hand
-            // 
-            this.pictureBoxPlayer2Hand.Location = new System.Drawing.Point(871, 685);
-            this.pictureBoxPlayer2Hand.Name = "pictureBoxPlayer2Hand";
-            this.pictureBoxPlayer2Hand.Size = new System.Drawing.Size(627, 101);
-            this.pictureBoxPlayer2Hand.TabIndex = 5;
-            this.pictureBoxPlayer2Hand.TabStop = false;
-            // 
-            // pictureBoxPlayer2Board
-            // 
-            this.pictureBoxPlayer2Board.InitialImage = global::Assignment2.Properties.Resources.Board;
-            this.pictureBoxPlayer2Board.Location = new System.Drawing.Point(871, 68);
-            this.pictureBoxPlayer2Board.Name = "pictureBoxPlayer2Board";
-            this.pictureBoxPlayer2Board.Size = new System.Drawing.Size(627, 568);
-            this.pictureBoxPlayer2Board.TabIndex = 6;
-            this.pictureBoxPlayer2Board.TabStop = false;
-            // 
             // labelRollResult
             // 
             this.labelRollResult.AutoSize = true;
+            this.labelRollResult.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.labelRollResult.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelRollResult.Location = new System.Drawing.Point(721, 488);
             this.labelRollResult.Name = "labelRollResult";
-            this.labelRollResult.Size = new System.Drawing.Size(70, 26);
+            this.labelRollResult.Size = new System.Drawing.Size(72, 28);
             this.labelRollResult.TabIndex = 7;
             this.labelRollResult.Text = "label1";
             // 
@@ -366,6 +384,46 @@ namespace Assignment2
             this.buttonNextTurn.Text = "Next Turn";
             this.buttonNextTurn.UseVisualStyleBackColor = true;
             // 
+            // pictureBoxPlayer2Board
+            // 
+            this.pictureBoxPlayer2Board.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.pictureBoxPlayer2Board.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxPlayer2Board.Image")));
+            this.pictureBoxPlayer2Board.InitialImage = global::Assignment2.Properties.Resources.Board_600_600;
+            this.pictureBoxPlayer2Board.Location = new System.Drawing.Point(871, 68);
+            this.pictureBoxPlayer2Board.Name = "pictureBoxPlayer2Board";
+            this.pictureBoxPlayer2Board.Size = new System.Drawing.Size(600, 600);
+            this.pictureBoxPlayer2Board.TabIndex = 6;
+            this.pictureBoxPlayer2Board.TabStop = false;
+            // 
+            // pictureBoxPlayer2Hand
+            // 
+            this.pictureBoxPlayer2Hand.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.pictureBoxPlayer2Hand.Location = new System.Drawing.Point(871, 685);
+            this.pictureBoxPlayer2Hand.Name = "pictureBoxPlayer2Hand";
+            this.pictureBoxPlayer2Hand.Size = new System.Drawing.Size(600, 101);
+            this.pictureBoxPlayer2Hand.TabIndex = 5;
+            this.pictureBoxPlayer2Hand.TabStop = false;
+            // 
+            // pictureBoxPlayer1Hand
+            // 
+            this.pictureBoxPlayer1Hand.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.pictureBoxPlayer1Hand.Location = new System.Drawing.Point(16, 685);
+            this.pictureBoxPlayer1Hand.Name = "pictureBoxPlayer1Hand";
+            this.pictureBoxPlayer1Hand.Size = new System.Drawing.Size(600, 101);
+            this.pictureBoxPlayer1Hand.TabIndex = 4;
+            this.pictureBoxPlayer1Hand.TabStop = false;
+            // 
+            // pictureBoxPlayer1Board
+            // 
+            this.pictureBoxPlayer1Board.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.pictureBoxPlayer1Board.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxPlayer1Board.Image")));
+            this.pictureBoxPlayer1Board.InitialImage = global::Assignment2.Properties.Resources.Board_600_600;
+            this.pictureBoxPlayer1Board.Location = new System.Drawing.Point(16, 68);
+            this.pictureBoxPlayer1Board.Name = "pictureBoxPlayer1Board";
+            this.pictureBoxPlayer1Board.Size = new System.Drawing.Size(600, 600);
+            this.pictureBoxPlayer1Board.TabIndex = 0;
+            this.pictureBoxPlayer1Board.TabStop = false;
+            // 
             // Game_form
             // 
             this.ClientSize = new System.Drawing.Size(1552, 967);
@@ -384,10 +442,10 @@ namespace Assignment2
             this.Controls.Add(this.buttonStart);
             this.Controls.Add(this.pictureBoxPlayer1Board);
             this.Name = "Game_form";
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlayer1Board)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlayer1Hand)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlayer2Hand)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlayer2Board)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlayer2Hand)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlayer1Hand)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlayer1Board)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
