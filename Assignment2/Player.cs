@@ -71,10 +71,10 @@ namespace Assignment2
         /// </summary>
         /// <param name="dino">Dino to place</param>
         /// <param name="pen">Target pen</param>
-        public bool PlaceDino(Dino dino, Pen pen)
+        public void PlaceDino(Dino dino, Pen pen)
         {
             if (dino == null || pen == null)
-                return false;
+                return;
 
             // simple capacity check - concrete pen types can additionally enforce placement rules
             if (pen.DinoList.Count < pen.MaxDinos)
@@ -85,10 +85,10 @@ namespace Assignment2
                 dinoHandList.Remove(dino);
                 // update positions for dinos inside the pen so they will draw correctly
                 pen.assignDinoPositions(pen.XPos, pen.YPos);
-                return true;
+                return;
             }
 
-            return false;
+            return;
         }
         
 
