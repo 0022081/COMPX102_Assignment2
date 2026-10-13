@@ -50,19 +50,24 @@
     <Compile Include="Dice.cs" />
     <Compile Include="Dino.cs" />
     <Compile Include="DinoBag.cs" />
-    <Compile Include="DinoPenCondition.cs" />
-    <Compile Include="DinoSpecies.cs" />
-    <Compile Include="ForestPen.cs" />
+    <Compile Include="Conditions\DinoPenCondition.cs" />
+    <Compile Include="Conditions\DinoSpecies.cs" />
+    <Compile Include="Pens\ForestPen.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Game_form.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Pen.cs" />
-    <Compile Include="PlacementCondition.cs" />
+    <Compile Include="Pens\KingPen.cs" />
+    <Compile Include="Pens\MeadowPen.cs" />
+    <Compile Include="Pens\Pen.cs" />
+    <Compile Include="Conditions\PlacementCondition.cs" />
+    <Compile Include="Pens\SolarityPen.cs" />
+    <Compile Include="Pens\WoodyPen.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="Pens\PrairiePen.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="River.cs" />
+    <Compile Include="Pens\River.cs" />
     <EmbeddedResource Include="Game_form.resx">
       <DependentUpon>Game_form.cs</DependentUpon>
     </EmbeddedResource>

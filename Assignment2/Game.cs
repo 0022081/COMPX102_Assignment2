@@ -76,6 +76,7 @@ namespace Assignment2
             players.Add(player2);
 
             bag.CreateBag(new Dino(DinoSpecies.T_Rex, 0, 0));
+            roundNumber = 0;
         }
 
 
@@ -195,6 +196,9 @@ namespace Assignment2
             return PlaceAiDino(true);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void CompleteTurn()
         {
             turnNumber++;
@@ -214,6 +218,9 @@ namespace Assignment2
             turnComplete = true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void DealHands()
         {
             foreach (Player player in players)
