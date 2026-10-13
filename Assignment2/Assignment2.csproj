@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AiStrategy.cs" />
     <Compile Include="Board.cs" />
     <Compile Include="Dice.cs" />
     <Compile Include="Dino.cs" />

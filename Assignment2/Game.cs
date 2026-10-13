@@ -10,6 +10,8 @@ namespace Assignment2
 {
     internal class Game
     {
+        private readonly AiStrategy aiStrategy = new AiStrategy();
+
         // Dice object for rolling the dice
         protected Dice dice = new Dice();
         // List of players in game
@@ -79,7 +81,10 @@ namespace Assignment2
             roundNumber = 0;
         }
 
-
+        /// <summary>
+        /// Rolls the dice for placement condition
+        /// </summary>
+        /// <returns></returns>
         public PlacementCondition RollDice()
         {
             // Roll the dice to determine the placement condition for this turn
@@ -118,6 +123,7 @@ namespace Assignment2
         {
             if (!hasRolled || turnComplete || (rollerIndex == 0 && rollerPlacementComplete))
             {
+                MessageBox.Show("Player has already rolled / Completed turn / roller index out of range & roller has placed");
                 return false;
             }
 
@@ -147,35 +153,33 @@ namespace Assignment2
         {
             if ((unrestricted && rollerPlacementComplete) || turnComplete)
             {
+                MessageBox.Show("AI turn has already completed. Cannot run again");
                 return false;
             }
 
             Player ai = players[1];
-            foreach (Dino dino in ai.DinoHandList)
+            AiMove move = aiStrategy.ChooseMove(ai, players[0], currentCondition, unrestricted);
+            if (move == null)
             {
-                List<Pen> pens = unrestricted
-                    ? ai.Zoo.PenList
-                    : ai.Zoo.GetValidPens(dino, currentCondition);
-
-                foreach (Pen pen in pens)
-                {
-                    if (AttemptPlaceDino(1, dino, pen, unrestricted))
-                    {
-                        if (!unrestricted)
-                        {
-                            CompleteTurn();
-                        }
-                        else
-                        {
-                            rollerPlacementComplete = true;
-                        }
-
-                        return true;
-                    }
-                }
+                return false;
             }
 
-            return false;
+            if (move.Pen == null)
+            {
+                // No good or legal pen: use the River
+                ai.DinoHandList.Remove(move.Dino);
+                move.Dino.XPos = 305;
+                move.Dino.YPos = 10 + (ai.Zoo.RiverCount * 25);
+                ai.Zoo.AddDinoRiver(move.Dino);
+            }
+            else if (!AttemptPlaceDino(1, move.Dino, move.Pen, unrestricted))
+            {
+                return false;
+            }
+
+            if (!unrestricted) { CompleteTurn(); }
+            else { rollerPlacementComplete = true; }
+            return true;
         }
 
         /// <summary>

@@ -79,6 +79,7 @@ namespace Assignment2
                 {
                     pen.Draw(g); // Draw each pen at its predefined location
                 }
+                game.players[0].Zoo.DisplayRiver(g);
             }
 
             //pictureBoxPlayer2Board.Image = new Bitmap(Properties.Resources.Board);
@@ -88,6 +89,7 @@ namespace Assignment2
                 {
                     pen.Draw(g); // Draw each pen at its predefined location
                 }
+                game.players[1].Zoo.DisplayRiver(g);
             }
             // Update the players boards
             pictureBoxPlayer2Board.Refresh();
@@ -135,6 +137,8 @@ namespace Assignment2
         /// <param name="e"></param>
         private void pictureBoxBoard_MouseClick(object sender, MouseEventArgs e)
         {
+            Console.WriteLine(e.X.ToString() + ", " + e.Y.ToString());
+
             if (selectedDino == null || selectedPlayerIndex != 0 || !game.HasRolled)
                 return;
 
@@ -190,7 +194,11 @@ namespace Assignment2
         private void buttonNextTurn_Click(object sender, EventArgs e)
         {
             if (game == null)
+            {
+                MessageBox.Show("Game not started");
                 return;
+            }
+                
 
             if (game.RollerIndex == 0 && game.HasRolled && game.RollerPlacementComplete && !game.TurnComplete)
             {

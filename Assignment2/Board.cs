@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,13 +10,19 @@ namespace Assignment2
     class Board
     {
         protected List<Pen> penList = new List<Pen>();
+
+
         protected River river = new River();
 
+        // list of Pens in current board
         public List<Pen> PenList
         {
             get { return penList; }
             set { penList = value; }
         }
+
+        // get the number of dinos in the river
+        public int RiverCount { get { return river.Count; } }
 
         /// <summary>
         /// Initalize the board object with pens in board
@@ -23,13 +30,14 @@ namespace Assignment2
         public Board()
         {
             // create pens
-            ForestPen forestPen = new ForestPen("Forest", "Left", "Woodlands", 8, 150, 210, 100, 100);
-            MeadowPen meadowPen = new MeadowPen("Meadow", "Right", "Grasslands", 6, 140, 225, 200, 200);
-            PrairiePen prairiePen = new PrairiePen("Prairie", "Left", "Grasslands", 8, 160, 150, 100, 300);
-            WoodyPen woodyPen = new WoodyPen("Woody", "Left", "Woodlands", 3, 150, 165, 50, 500);
-            KingPen kingPen = new KingPen("King", "Right", "Woodlands", 1, 110, 120, 400, 50);
-            SolarityPen solarityPen = new SolarityPen("Solarity", "Right", "Grasslands", 1, 150, 150, 500, 500);
+            ForestPen forestPen = new ForestPen("Forest", "Left", "Woodlands", 8, 150, 210, 15, 15);
+            MeadowPen meadowPen = new MeadowPen("Meadow", "Right", "Grasslands", 6, 140, 225, 350, 230);
+            PrairiePen prairiePen = new PrairiePen("Prairie", "Left", "Grasslands", 10, 175, 150, 45, 390);
+            WoodyPen woodyPen = new WoodyPen("Woody", "Left", "Woodlands", 3, 150, 165, 35, 230);
+            KingPen kingPen = new KingPen("King", "Right", "Woodlands", 1, 110, 120, 393, 40);
+            SolarityPen solarityPen = new SolarityPen("Solarity", "Right", "Grasslands", 1, 150, 150, 440, 400);
 
+            // add created pens to boards pen's list
             PenList.Add(forestPen);
             PenList.Add(meadowPen);
             PenList.Add(prairiePen);
@@ -59,21 +67,22 @@ namespace Assignment2
             return validPens;
         }
 
-        public bool PlaceDino(Dino dino, Pen pen)
+        /// <summary>
+        /// Add dino to river
+        /// </summary>
+        /// <param name="dino"></param>
+        public void AddDinoRiver(Dino dino)
         {
-            // Implementation for placing a dino in a pen
-            return true;
+            river.AddDino(dino);
         }
 
-        public void PlaceDinoInRiver(Dino dino)
+        /// <summary>
+        /// Display river pen
+        /// </summary>
+        /// <param name="g"></param>
+        public void DisplayRiver(Graphics g)
         {
-            // Implementation for placing a dino in the river
-        }
-
-        public int CalculateTotalPoints(Player player)
-        {
-            // Implementation for calculating total points from all pens and river
-            return 0;
+            river.Draw(g);
         }
     }
 }
