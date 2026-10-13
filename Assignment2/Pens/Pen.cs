@@ -56,7 +56,6 @@ namespace Assignment2
         public List<Dino> DinoList
         {
             get { return dinoList; }
-            set { dinoList = value; }
         }
         public int Points
         {

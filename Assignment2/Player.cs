@@ -66,7 +66,14 @@ namespace Assignment2
         }
 
 
-
+        /// <summary>
+        /// Returns true if selected dino can be placed in selected pen
+        /// </summary>
+        /// <param name="dino"></param>
+        /// <param name="condition"></param>
+        /// <param name="pen"></param>
+        /// <param name="unrestricted"></param>
+        /// <returns></returns>
         public bool checkDinoPlacement(Dino dino, PlacementCondition condition, Pen pen, bool unrestricted)
         {
             if (dino == null || pen == null)

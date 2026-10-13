@@ -63,7 +63,7 @@ namespace Assignment2
         public override void AddDino(Dino dino)
         {
             // Add the dino to the pen if it can be placed
-            DinoList.Add(dino);
+            dinoList.Add(dino);
 
         }
 

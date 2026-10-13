@@ -23,12 +23,12 @@ namespace Assignment2
         public Board()
         {
             // create pens
-            ForestPen forestPen = new ForestPen("Forest", "Left", "Woodlands", 8, 100, 100, 100, 100);
-            MeadowPen meadowPen = new MeadowPen("Meadow", "Right", "Grasslands", 6, 100, 100, 200, 200);
-            PrairiePen prairiePen = new PrairiePen("Prairie", "Left", "Grasslands", 8, 100, 100, 100, 300);
-            WoodyPen woodyPen = new WoodyPen("Woody", "Left", "Woodlands", 3, 100, 100, 50, 500);
-            KingPen kingPen = new KingPen("King", "Right", "Woodlands", 1, 100, 100, 400, 50);
-            SolarityPen solarityPen = new SolarityPen("Solarity", "Right", "Grasslands", 1, 100, 100, 500, 500);
+            ForestPen forestPen = new ForestPen("Forest", "Left", "Woodlands", 8, 150, 210, 100, 100);
+            MeadowPen meadowPen = new MeadowPen("Meadow", "Right", "Grasslands", 6, 140, 225, 200, 200);
+            PrairiePen prairiePen = new PrairiePen("Prairie", "Left", "Grasslands", 8, 160, 150, 100, 300);
+            WoodyPen woodyPen = new WoodyPen("Woody", "Left", "Woodlands", 3, 150, 165, 50, 500);
+            KingPen kingPen = new KingPen("King", "Right", "Woodlands", 1, 110, 120, 400, 50);
+            SolarityPen solarityPen = new SolarityPen("Solarity", "Right", "Grasslands", 1, 150, 150, 500, 500);
 
             PenList.Add(forestPen);
             PenList.Add(meadowPen);
