@@ -101,6 +101,7 @@ namespace Assignment2
         {
             if (!CheckRound())
             {
+                EndGame();
                 return false;
             }
 
@@ -314,14 +315,28 @@ namespace Assignment2
             {
                 playerTotal += pen.CalculatePoints(player.Zoo, opponent.Zoo);
             }
-            playerTotal += player.Zoo.RiverPoints;   // 1 per river dino (River.CalculatePoints())
+            playerTotal += player.Zoo.RiverPoints;
 
             foreach (Pen pen in opponent.Zoo.PenList)
             {
                 opponentTotal += pen.CalculatePoints(opponent.Zoo, player.Zoo);
             }
             opponentTotal += opponent.Zoo.RiverPoints;
-            
+
+            // Find winner or draw
+            if (playerTotal > opponentTotal)
+            {
+                MessageBox.Show($"Winner: Player 1 Total Points: {playerTotal}");
+            }
+            else if (playerTotal < opponentTotal)
+            {
+                MessageBox.Show($"Winner: AI Player Total Points: {opponentTotal}");
+            }
+            else
+            {
+                MessageBox.Show($"Draw Player Points: {playerTotal} AI Points: {opponentTotal}");
+            }
+
         }
     }
 
