@@ -46,7 +46,7 @@ namespace Assignment2
             {
                 couples += count / 2;
             }
-            return couples;
+            return couples * 5;
         }
 
         public override bool CanPlaceDino(Dino dino, PlacementCondition condition, bool unrestricted)
@@ -63,14 +63,7 @@ namespace Assignment2
                     return true;
                 }
 
-                if (condition == PlacementCondition.Grasslands || condition == PlacementCondition.FoodCourt)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return MeetsPlacementCondition(condition, unrestricted);
             }
         }
 

@@ -28,11 +28,13 @@ namespace Assignment2
             this.maxDinos = maxDinos;
         }
 
-        public override int CalculatePoints()
+        public override int CalculatePoints(Board ownZoo, Board opponentZoo)
         {
-            // If dino.species in this pen is the only one in player's board
-            // return 7, otherwise return 0
-            return 0;
+            if (dinoList.Count == 0)
+                return 0;
+
+            // 7 points if this is the only dino of its species in your zoo
+            return ownZoo.CountSpecies(dinoList[0].Species) == 1 ? 7 : 0;
         }
 
         public override bool CanPlaceDino(Dino dino, PlacementCondition condition, bool unrestricted)
@@ -49,14 +51,7 @@ namespace Assignment2
                     return true;
                 }
 
-                if (condition == PlacementCondition.Grasslands || condition == PlacementCondition.Restrooms)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return MeetsPlacementCondition(condition, unrestricted);
             }
         }
 

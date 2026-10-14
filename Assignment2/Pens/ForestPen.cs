@@ -44,19 +44,21 @@ namespace Assignment2
             }
             else
             {
+                // If species of selected dino currently already in forest pen, restrict placement. 
+                foreach(Dino d in dinoList)
+                {
+                    if (dino.Species == d.Species)
+                    {
+                        return false;
+                    }    
+                }
+
                 if(unrestricted)
                 {
                     return true;
                 }
 
-                if (condition == PlacementCondition.Woodlands || condition == PlacementCondition.FoodCourt)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return MeetsPlacementCondition(condition, unrestricted);
             }
         }
 

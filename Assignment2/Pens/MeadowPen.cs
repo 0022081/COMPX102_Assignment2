@@ -58,14 +58,7 @@ namespace Assignment2
                     return true;
                 }
 
-                if (condition == PlacementCondition.Grasslands || condition == PlacementCondition.Restrooms)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return MeetsPlacementCondition(condition, unrestricted);
             }
         }
 

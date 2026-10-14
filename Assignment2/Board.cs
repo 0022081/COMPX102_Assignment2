@@ -24,6 +24,8 @@ namespace Assignment2
         // get the number of dinos in the river
         public int RiverCount { get { return river.Count; } }
 
+        public int RiverPoints { get { return river.CalculatePoints(); } }
+
         /// <summary>
         /// Initalize the board object with pens in board
         /// </summary>
@@ -65,6 +67,21 @@ namespace Assignment2
             
             // Add river pen to valid pens list
             return validPens;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="species"></param>
+        /// <returns></returns>
+        public int CountSpecies(DinoSpecies species)
+        {
+            int count = river.CountSpecies(species);
+            foreach (Pen pen in penList)
+            {
+                count += pen.DinoList.Count(d => d.Species == species);
+            }
+            return count;
         }
 
         /// <summary>

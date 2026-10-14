@@ -36,6 +36,10 @@ namespace Assignment2
             return dinoList.Count;
         }
 
+        public int CountSpecies(DinoSpecies species)
+        {
+            return dinoList.Count(d => d.Species == species);
+        }
 
         /// <summary>
         /// Draws the pen and its contents on the graphics object

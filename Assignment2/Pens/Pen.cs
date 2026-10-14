@@ -104,18 +104,12 @@ namespace Assignment2
         // Assign x and y values for all the dinos in the pen based on their index in the list
         public void assignDinoPositions(int x, int y)
         {
-            // Move the dinos added to pen along x coordinates for forest class
+            int perRow = Math.Max(1, Width / 50);   // dinos that fit across the pen
+
             for (int i = 0; i < dinoList.Count; i++)
             {
-                dinoList[i].XPos = x + (i * 50);
-                dinoList[i].YPos = y + 20;
-
-                // check if dino out of bounds of pen, if so move to next row
-                if (dinoList[i].XPos > x + Width - 50)
-                {
-                    dinoList[i].XPos = x + ((i % 4) * 50);
-                    dinoList[i].YPos = y + 70;
-                }
+                dinoList[i].XPos = x + (i % perRow) * 50;
+                dinoList[i].YPos = y + 20 + (i / perRow) * 50;
             }
         }
 
@@ -139,7 +133,15 @@ namespace Assignment2
         /// Calculates the points of the pen based on the dinos in it
         /// </summary>
         /// <returns></returns>
-        public abstract int CalculatePoints();
+        public virtual int CalculatePoints()
+        {
+            return CalculatePoints();
+        }
+
+        public virtual int CalculatePoints(Board ownZoo, Board opponentZoo)
+        {
+            return CalculatePoints();   // most pens don't need the boards
+        }
 
         /// <summary>
         /// Checks if a dino can be placed in the pen based on the pen's condition and the dino's species
@@ -148,6 +150,26 @@ namespace Assignment2
         /// <param name="condition"></param>
         /// <returns></returns>
         public abstract bool CanPlaceDino(Dino dino, PlacementCondition condition, bool unrestricted);
+
+        /// <summary>
+        /// Returns true if this pen satisfies the die condition (always true for the roller).
+        /// </summary>
+        protected bool MeetsPlacementCondition(PlacementCondition condition, bool unrestricted)
+        {
+            if (unrestricted)
+                return true;
+
+            switch (condition)
+            {
+                case PlacementCondition.Woodlands: return penStyle == "Woodlands";
+                case PlacementCondition.Grasslands: return penStyle == "Grasslands";
+                case PlacementCondition.Restrooms: return boardSide == "Right";
+                case PlacementCondition.FoodCourt: return boardSide == "Left";
+                case PlacementCondition.EmptyPen: return dinoList.Count == 0;
+                case PlacementCondition.T_Rex: return !HasTRex();  // checked before the dino is added
+                default: return false;
+            }
+        }
 
         /// <summary>
         /// Adds a dino to the pen if allowed
@@ -165,6 +187,7 @@ namespace Assignment2
         {
             // Draw the pen as a rectangle
             g.DrawRectangle(Pens.Black, XPos, YPos, Width, Height);
+            g.DrawString(GetType().Name, SystemFonts.DefaultFont, Brushes.Black, XPos, YPos);
             // Draw the dino species in the pen
             for (int i = 0; i < dinoList.Count; i++)
             {

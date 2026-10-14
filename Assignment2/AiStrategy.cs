@@ -84,14 +84,6 @@ namespace Assignment2
 
             if (pen is MeadowPen && pen.DinoList.Any(d => d.Species == dino.Species))
                 return false;
-
-            if (!unrestricted)
-            {
-                if (condition == PlacementCondition.EmptyPen && pen.DinoList.Count > 0)
-                    return false;
-                if (condition == PlacementCondition.T_Rex && pen.HasTRex())
-                    return false;
-            }
             return true;
         }
 
@@ -168,12 +160,7 @@ namespace Assignment2
         /// </summary>
         private int CountSpecies(Player player, DinoSpecies species)
         {
-            int count = 0;
-            foreach (Pen pen in player.Zoo.PenList)
-            {
-                count += pen.DinoList.Count(d => d.Species == species);
-            }
-            return count;
+            return player.Zoo.CountSpecies(species);
         }
     }
 }

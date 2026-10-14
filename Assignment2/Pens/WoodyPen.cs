@@ -34,7 +34,7 @@ namespace Assignment2
             // Calculate points based on how many dinos in pen
             if (dinoList.Count == 3)
             {
-                return 3;
+                return 7;
             }
             else
             {
@@ -57,14 +57,7 @@ namespace Assignment2
                     return true;
                 }
 
-                if (condition == PlacementCondition.Woodlands || condition == PlacementCondition.FoodCourt)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return MeetsPlacementCondition(condition, unrestricted);
             }
         }
 

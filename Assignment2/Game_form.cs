@@ -30,6 +30,7 @@ namespace Assignment2
         private Label labelRound;
         private Label labelTurnResult;
         private Label labelRoundResult;
+        private Label labelPlayerDo;
         private Button buttonNextTurn;
         private int selectedPlayerIndex = -1;
 
@@ -99,6 +100,27 @@ namespace Assignment2
             labelTurnResult.Text = game.turnNumber.ToString() + " /6";
             labelRoundResult.Text = game.roundNumber.ToString() + " /4";
             buttonRoll.Enabled = game.RollerIndex == 0 && !game.HasRolled;
+            UpdatePlayerActionLabel();
+        }
+
+        private void UpdatePlayerActionLabel()
+        {
+            if (game == null)
+            {
+                labelPlayerDo.Text = "Player 1: Start game";
+            }
+            else if (game.RollerIndex == 0 && !game.HasRolled)
+            {
+                labelPlayerDo.Text = "Player 1: Roll the dice";
+            }
+            else if (game.RollerIndex == 0 && game.HasRolled && game.RollerPlacementComplete)
+            {
+                labelPlayerDo.Text = "AI: Place a dino";
+            }
+            else
+            {
+                labelPlayerDo.Text = "Player 1: Place a dino";
+            }
         }
 
         /// <summary>
@@ -144,6 +166,19 @@ namespace Assignment2
 
             if (sender != pictureBoxPlayer1Board)
                 return;
+
+            // River is drawn at x 300-340, y 0-600
+            if (e.X >= 300 && e.X <= 340 && e.Y >= 0 && e.Y <= 600)
+            {
+                if (game.PlacePlayerDinoRiver(selectedDino))
+                {
+                    selectedDino = null;
+                    selectedPen = null;
+                    selectedPlayerIndex = -1;
+                    DisplayGame();
+                }
+                return;
+            }
 
             Player p = game.players[0];
 
@@ -245,6 +280,7 @@ namespace Assignment2
             PlacementCondition condition = game.RollDice();
             labelRollResult.Text = condition.ToString();
             buttonRoll.Enabled = false;
+            UpdatePlayerActionLabel();
         }
 
         /// <summary>
@@ -283,6 +319,7 @@ namespace Assignment2
             this.labelRound = new System.Windows.Forms.Label();
             this.labelTurnResult = new System.Windows.Forms.Label();
             this.labelRoundResult = new System.Windows.Forms.Label();
+            this.labelPlayerDo = new System.Windows.Forms.Label();
             this.buttonNextTurn = new System.Windows.Forms.Button();
             this.pictureBoxPlayer2Board = new System.Windows.Forms.PictureBox();
             this.pictureBoxPlayer2Hand = new System.Windows.Forms.PictureBox();
@@ -317,11 +354,11 @@ namespace Assignment2
             this.labelRollResult.AutoSize = true;
             this.labelRollResult.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.labelRollResult.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelRollResult.Location = new System.Drawing.Point(721, 488);
+            this.labelRollResult.Location = new System.Drawing.Point(702, 487);
             this.labelRollResult.Name = "labelRollResult";
-            this.labelRollResult.Size = new System.Drawing.Size(72, 28);
+            this.labelRollResult.Size = new System.Drawing.Size(120, 28);
             this.labelRollResult.TabIndex = 7;
-            this.labelRollResult.Text = "label1";
+            this.labelRollResult.Text = "Roll Result";
             // 
             // labelPlayer1
             // 
@@ -383,6 +420,16 @@ namespace Assignment2
             this.labelRoundResult.TabIndex = 13;
             this.labelRoundResult.Text = "label7";
             // 
+            // labelPlayerDo
+            // 
+            this.labelPlayerDo.AutoSize = true;
+            this.labelPlayerDo.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelPlayerDo.Location = new System.Drawing.Point(688, 235);
+            this.labelPlayerDo.Name = "labelPlayerDo";
+            this.labelPlayerDo.Size = new System.Drawing.Size(150, 26);
+            this.labelPlayerDo.TabIndex = 15;
+            this.labelPlayerDo.Text = "Player 1: Start game";
+            // 
             // buttonNextTurn
             // 
             this.buttonNextTurn.Location = new System.Drawing.Point(693, 685);
@@ -437,6 +484,7 @@ namespace Assignment2
             this.ClientSize = new System.Drawing.Size(1552, 967);
             this.Controls.Add(this.buttonNextTurn);
             this.Controls.Add(this.labelRoundResult);
+            this.Controls.Add(this.labelPlayerDo);
             this.Controls.Add(this.labelTurnResult);
             this.Controls.Add(this.labelRound);
             this.Controls.Add(this.labelTurn);

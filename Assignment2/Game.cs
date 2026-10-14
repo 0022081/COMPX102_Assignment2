@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -28,8 +29,8 @@ namespace Assignment2
         private int rollerIndex;
         private bool turnComplete;
         private bool rollerPlacementComplete;
-        private const int TurnsPerRound = 6;
-        private const int DinosPerHand = 8;
+        private const int TurnsPerRound = 3;
+        private const int DinosPerHand = 6;
         public PlacementCondition CurrentCondition
         {
             get { return currentCondition; }
@@ -219,6 +220,7 @@ namespace Assignment2
                 return;
             }
 
+            SwapHands();              // both players have placed, so pass hands on
             turnComplete = true;
         }
 
@@ -249,6 +251,29 @@ namespace Assignment2
             }
         }
 
+        public bool PlacePlayerDinoRiver(Dino dino)
+        {
+            if (dino == null || !hasRolled || turnComplete || (rollerIndex == 0 && rollerPlacementComplete))
+                return false;
+
+            Player p = players[0];
+            p.DinoHandList.Remove(dino);
+            dino.XPos = 305;
+            dino.YPos = 10 + (p.Zoo.RiverCount * 25);
+            p.Zoo.AddDinoRiver(dino);
+
+            if (rollerIndex == 1)
+            {
+                rollerIndex = 0;
+                hasRolled = false;
+                CompleteTurn();
+            }
+            else
+            {
+                rollerPlacementComplete = true;
+            }
+            return true;
+        }
 
         /// <summary>
         /// Player can attempt to place selected dino in selected pen
@@ -262,6 +287,41 @@ namespace Assignment2
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Swaps the remaining dinos in the human's and AI's hands
+        /// </summary>
+        private void SwapHands()
+        {
+            List<Dino> temp = players[0].DinoHandList;
+            players[0].DinoHandList = players[1].DinoHandList;
+            players[1].DinoHandList = temp;
+        }
+
+        /// <summary>
+        /// Handles the end of the game events
+        /// </summary>
+        public void EndGame()
+        {
+            Player player = players[0];
+            Player opponent = players[1];
+
+            int playerTotal = 0;
+            int opponentTotal = 0;
+
+            foreach (Pen pen in player.Zoo.PenList)
+            {
+                playerTotal += pen.CalculatePoints(player.Zoo, opponent.Zoo);
+            }
+            playerTotal += player.Zoo.RiverPoints;   // 1 per river dino (River.CalculatePoints())
+
+            foreach (Pen pen in opponent.Zoo.PenList)
+            {
+                opponentTotal += pen.CalculatePoints(opponent.Zoo, player.Zoo);
+            }
+            opponentTotal += opponent.Zoo.RiverPoints;
+            
         }
     }
 
