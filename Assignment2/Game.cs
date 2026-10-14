@@ -11,46 +11,58 @@ namespace Assignment2
 {
     internal class Game
     {
+        // Ai object 
         private readonly AiStrategy aiStrategy = new AiStrategy();
 
         // Dice object for rolling the dice
         protected Dice dice = new Dice();
-        // List of players in game
+        // Players participating in the game.
         public List<Player> players = new List<Player>();
-        // List of dino objects in game
+        // Bag supplying dinosaurs to players.
         protected DinoBag bag = new DinoBag();
-        // Number of rounds and turns in the game
+        // Current round number.
         public int roundNumber = 1;
-        // Number of turns in the game
+        // Current turn number within the round.
         public int turnNumber = 1;
-        // Holds the current roll condition from the dice roll
+        // Placement condition from the current dice roll.
         protected PlacementCondition currentCondition;
+        // Whether the current turn's dice roll has been completed.
         private bool hasRolled;
+        // Index of the player who rolled the current condition.
         private int rollerIndex;
+        // Whether both players have completed the current turn.
         private bool turnComplete;
+        // Whether the roller has placed their dinosaur.
         private bool rollerPlacementComplete;
+        // Number of turns in each round.
         private const int TurnsPerRound = 3;
+        // Number of dinosaurs dealt to each player.
         private const int DinosPerHand = 6;
+
         public PlacementCondition CurrentCondition
         {
             get { return currentCondition; }
         }
 
+        // Returns the condition if player has rolled
         public bool HasRolled
         {
             get { return hasRolled; }
         }
 
+        // Returns 
         public int RollerIndex
         {
             get { return rollerIndex; }
         }
 
+        // Indicates whether the current turn is complete.
         public bool TurnComplete
         {
             get { return turnComplete; }
         }
 
+        // Indicates whether the roller has placed a dinosaur.
         public bool RollerPlacementComplete
         {
             get { return rollerPlacementComplete; }
@@ -105,6 +117,7 @@ namespace Assignment2
                 return false;
             }
 
+            // A new round replaces both hands before the first turn begins.
             DealHands();
 
             turnNumber = 0;
@@ -116,11 +129,11 @@ namespace Assignment2
         }
 
         /// <summary>
-        /// 
+        /// Places the human player's selected dinosaur in a pen when the move is legal.
         /// </summary>
-        /// <param name="selectedDino"></param>
-        /// <param name="pen"></param>
-        /// <returns></returns>
+        /// <param name="selectedDino">Dinosaur selected from the player's hand.</param>
+        /// <param name="pen">Target pen.</param>
+        /// <returns><c>true</c> when the dinosaur was placed.</returns>
         public bool PlacePlayerDino(Dino selectedDino, Pen pen)
         {
             if (!hasRolled || turnComplete || (rollerIndex == 0 && rollerPlacementComplete))
@@ -129,6 +142,7 @@ namespace Assignment2
                 return false;
             }
 
+            // The roller may use any pen; the other player must follow the die condition.
             bool unrestricted = rollerIndex == 0;
             bool placed = AttemptPlaceDino(0, selectedDino, pen, unrestricted);
 
@@ -166,6 +180,7 @@ namespace Assignment2
                 return false;
             }
 
+            // A null pen is the AI strategy's explicit choice to use the river.
             if (move.Pen == null)
             {
                 // No good or legal pen: use the River
@@ -203,15 +218,17 @@ namespace Assignment2
         }
 
         /// <summary>
-        /// 
+        /// Advances the game after both players complete their placements.
         /// </summary>
         private void CompleteTurn()
         {
+            // Both placements are complete, so advance the turn before checking the round boundary.
             turnNumber++;
             rollerPlacementComplete = false;
 
             if (turnNumber >= TurnsPerRound)
             {
+                // Start the next round with fresh hands and reset turn ownership.
                 roundNumber++;
                 DealHands();
                 turnNumber = 0;
@@ -221,12 +238,13 @@ namespace Assignment2
                 return;
             }
 
-            SwapHands();              // both players have placed, so pass hands on
+            // Both players have placed, so pass their remaining hands to each other.
+            SwapHands();
             turnComplete = true;
         }
 
         /// <summary>
-        /// 
+        /// Deals a fresh hand of dinosaurs to each player.
         /// </summary>
         private void DealHands()
         {
@@ -252,11 +270,17 @@ namespace Assignment2
             }
         }
 
+        /// <summary>
+        /// Places the human player's dinosaur in the river and advances turn state.
+        /// </summary>
+        /// <param name="dino">Dinosaur to place in the river.</param>
+        /// <returns><c>true</c> when the dinosaur was moved to the river.</returns>
         public bool PlacePlayerDinoRiver(Dino dino)
         {
             if (dino == null || !hasRolled || turnComplete || (rollerIndex == 0 && rollerPlacementComplete))
                 return false;
 
+            // River placement follows the same roller/non-roller state transition as pen placement.
             Player p = players[0];
             p.DinoHandList.Remove(dino);
             dino.XPos = 305;
@@ -311,6 +335,7 @@ namespace Assignment2
             int playerTotal = 0;
             int opponentTotal = 0;
 
+            // Context-aware scoring is required for pens that compare both zoos.
             foreach (Pen pen in player.Zoo.PenList)
             {
                 playerTotal += pen.CalculatePoints(player.Zoo, opponent.Zoo);

@@ -13,27 +13,48 @@ namespace Assignment2
 {
     public partial class Game_form : Form
     {
+        // Game state controlled by this form.
         private Game game;
         // currently selected dino (from a player's hand) waiting to be placed
         private Dino selectedDino = null;
+        // Pen currently selected as the placement target.
         private Pen selectedPen = null;
+        // Board displaying player one's pens.
         private PictureBox pictureBoxPlayer1Board;
+        // Button that starts a new game.
         private Button buttonStart;
+        // Button that rolls the placement die.
         private Button buttonRoll;
+        // Picture box displaying player one's hand.
         private PictureBox pictureBoxPlayer1Hand;
+        // Picture box displaying player two's hand.
         private PictureBox pictureBoxPlayer2Hand;
+        // Board displaying player two's pens.
         private PictureBox pictureBoxPlayer2Board;
+        // Label showing the current placement condition.
         private Label labelRollResult;
+        // Label showing player one's name.
         private Label labelPlayer1;
+        // Label showing the AI player's name.
         private Label labelAIplayer;
+        // Label identifying the current turn.
         private Label labelTurn;
+        // Label identifying the current round.
         private Label labelRound;
+        // Label showing the turn counter.
         private Label labelTurnResult;
+        // Label showing the round counter.
         private Label labelRoundResult;
+        // Label describing the action expected from the user.
         private Label labelPlayerDo;
+        // Button that advances the game to the next turn.
         private Button buttonNextTurn;
+        // Index of the player whose hand supplied the selected dinosaur.
         private int selectedPlayerIndex = -1;
 
+        /// <summary>
+        /// Creates a new game, initializes its players, and clears the current selection.
+        /// </summary>
         public void StartNewGame()
         {
             // Reset the game state
@@ -46,6 +67,9 @@ namespace Assignment2
             selectedPlayerIndex = -1;
         }
 
+        /// <summary>
+        /// Refreshes the hands, boards, counters, and available actions shown in the form.
+        /// </summary>
         public void DisplayGame()
         {
             // Show the game form
@@ -103,6 +127,9 @@ namespace Assignment2
             UpdatePlayerActionLabel();
         }
 
+        /// <summary>
+        /// Updates the action prompt to match the current game state.
+        /// </summary>
         private void UpdatePlayerActionLabel()
         {
             if (game == null)
@@ -124,10 +151,10 @@ namespace Assignment2
         }
 
         /// <summary>
-        /// 
+        /// Selects the dinosaur under the mouse pointer in the human player's hand.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Hand control that received the click.</param>
+        /// <param name="e">Mouse coordinates of the click.</param>
         private void pictureBoxPlayerHand_MouseClick(object sender, MouseEventArgs e)
         {
             if (game == null)
@@ -153,10 +180,10 @@ namespace Assignment2
         }
 
         /// <summary>
-        /// 
+        /// Places the selected dinosaur in the clicked pen or river location.
         /// </summary>
-        /// <param name="sender"></pa>
-        /// <param name="e"></param>
+        /// <param name="sender">Board control that received the click.</param>
+        /// <param name="e">Mouse coordinates of the click.</param>
         private void pictureBoxBoard_MouseClick(object sender, MouseEventArgs e)
         {
             Console.WriteLine(e.X.ToString() + ", " + e.Y.ToString());

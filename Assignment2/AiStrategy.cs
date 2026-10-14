@@ -9,8 +9,11 @@ namespace Assignment2
     /// </summary>
     class AiMove
     {
+        // Dinosaur selected for the move.
         public Dino Dino;
+        // Pen selected for the move; null means the river.
         public Pen Pen;
+        // Estimated points contributed by the move.
         public double Score;
     }
 
@@ -27,7 +30,9 @@ namespace Assignment2
         private const double MistakeChance = 0.25;
 
         // Marginal points gained by adding the Nth dino (from rulebook scoring tables)
+        // Point gain for adding each successive dinosaur to a forest.
         private static readonly int[] ForestGain = { 2, 2, 4, 4, 6, 6, 6, 6 };
+        // Point gain for adding each successive dinosaur to a meadow.
         private static readonly int[] MeadowGain = { 1, 2, 3, 4, 5, 6 };
 
         /// <summary>
@@ -60,9 +65,10 @@ namespace Assignment2
                 return null;
             }
 
-            // Best first; random tie-break so the AI is not predictable
+            // Rank by expected value, then randomize equal scores so the AI is not predictable.
             List<AiMove> ranked = moves.OrderByDescending(m => m.Score).ThenBy(m => rand.Next()).ToList();
 
+            // Occasionally choose among the top three to model imperfect play.
             if (ranked.Count > 1 && rand.NextDouble() < MistakeChance)
             {
                 return ranked[rand.Next(Math.Min(3, ranked.Count))];
@@ -87,6 +93,9 @@ namespace Assignment2
             return true;
         }
 
+        /// <summary>
+        /// Returns the fixed point value assigned to placing a dinosaur in the river.
+        /// </summary>
         private double ScoreRiver(Dino dino)
         {
             // River gives 1 point per dino; keep it as the last resort
@@ -136,13 +145,13 @@ namespace Assignment2
                 score = 0;
             }
 
-            // T-Rex bonus: +1 for each pen containing a T-Rex
+            // Apply the T-Rex bonus only when this move creates a new T-Rex-containing pen.
             if (dino.Species == DinoSpecies.T_Rex && !pen.HasTRex())
             {
                 score += 1.0;
             }
 
-            // Don't ruin Solitary Island: avoid adding a species that is already alone in it
+            // Penalize moves that would invalidate another solitary species pen.
             foreach (Pen other in ai.Zoo.PenList)
             {
                 if (other is SolarityPen && other != pen && other.DinoList.Count > 0
@@ -157,6 +166,9 @@ namespace Assignment2
 
         /// <summary>
         /// Counts how many dinos of a species a player has in their pens.
+        /// </summary>
+        /// <summary>
+        /// Counts a species across the player's zoo.
         /// </summary>
         private int CountSpecies(Player player, DinoSpecies species)
         {

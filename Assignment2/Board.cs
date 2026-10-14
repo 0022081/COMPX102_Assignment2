@@ -9,9 +9,10 @@ namespace Assignment2
 {
     class Board
     {
+        // Pens available on this board.
         protected List<Pen> penList = new List<Pen>();
 
-
+        // River containing dinosaurs not placed in a pen.
         protected River river = new River();
 
         // list of Pens in current board
@@ -49,11 +50,11 @@ namespace Assignment2
         }
 
         /// <summary>
-        /// Return a list of valid pens for dino placement
+        /// Returns the pens that accept the dinosaur under the current condition.
         /// </summary>
-        /// <param name="dino"></param>
-        /// <param name="condition"></param>
-        /// <returns></returns>
+        /// <param name="dino">Dinosaur being tested.</param>
+        /// <param name="condition">Current placement condition.</param>
+        /// <returns>Pens where the dinosaur may be placed.</returns>
         public List<Pen> GetValidPens(Dino dino, PlacementCondition condition)
         {
             List<Pen> validPens = new List<Pen>();
@@ -70,10 +71,10 @@ namespace Assignment2
         }
 
         /// <summary>
-        /// 
+        /// Counts the specified species in the river and every pen on the board.
         /// </summary>
-        /// <param name="species"></param>
-        /// <returns></returns>
+        /// <param name="species">Species to count.</param>
+        /// <returns>Total number of matching dinosaurs.</returns>
         public int CountSpecies(DinoSpecies species)
         {
             int count = river.CountSpecies(species);
@@ -87,7 +88,7 @@ namespace Assignment2
         /// <summary>
         /// Add dino to river
         /// </summary>
-        /// <param name="dino"></param>
+        /// <param name="dino">Dinosaur to add to the river.</param>
         public void AddDinoRiver(Dino dino)
         {
             river.AddDino(dino);
@@ -96,7 +97,7 @@ namespace Assignment2
         /// <summary>
         /// Display river pen
         /// </summary>
-        /// <param name="g"></param>
+        /// <param name="g">Graphics surface on which to draw the river.</param>
         public void DisplayRiver(Graphics g)
         {
             river.Draw(g);

@@ -12,9 +12,11 @@ namespace Assignment2
         // Holds the species of the dinosaur
         protected DinoSpecies species;
         // Holds the x and y position of the dinosaur on the board
+        // Horizontal drawing position of the dinosaur.
         protected int xPos;
+        // Vertical drawing position of the dinosaur.
         protected int yPos;
-        // Holds the size of the dinosaur box
+        // Size of the square used to draw the dinosaur.
         protected const int DINO_SIZE = 20;
 
         /// <summary>

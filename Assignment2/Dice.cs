@@ -8,6 +8,7 @@ namespace Assignment2
 {
     class Dice
     {
+        // Placement conditions that can be returned by the die.
         /// <summary>
         /// Holds the list of roll types for the dice
         /// </summary>
@@ -21,6 +22,7 @@ namespace Assignment2
             PlacementCondition.T_Rex
         };
 
+        // Most recent condition returned by the die.
         /// <summary>
         /// Holds the current placement condition rolled by the dice.
         /// </summary>

@@ -9,6 +9,7 @@ namespace Assignment2
 {
     class River
     {
+        // Dinosaurs currently placed in the river.
         /// <summary>
         /// List of dinos in the river
         /// </summary>
@@ -36,6 +37,11 @@ namespace Assignment2
             return dinoList.Count;
         }
 
+        /// <summary>
+        /// Counts dinosaurs of the specified species in the river.
+        /// </summary>
+        /// <param name="species">Species to count.</param>
+        /// <returns>Number of matching dinosaurs.</returns>
         public int CountSpecies(DinoSpecies species)
         {
             return dinoList.Count(d => d.Species == species);

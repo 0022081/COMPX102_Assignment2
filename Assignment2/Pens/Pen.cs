@@ -11,20 +11,23 @@ namespace Assignment2
     {
         // Holds the name of the pen
         protected string name;
-        // Holds the height and width of the pen
+        // Height of the pen's drawing area.
         protected int height;
+        // Width of the pen's drawing area.
         protected int width;
+        // Horizontal drawing position of the pen.
         protected int xPos;
+        // Vertical drawing position of the pen.
         protected int yPos;
-        // Stores the list of dino objects in the pen
+        // Dinosaurs currently contained by the pen.
         protected List<Dino> dinoList = new List<Dino>();
-        // Stores the points of the pen
+        // Points currently calculated for the pen.
         protected int points = 0;
-        // Stores the side of the board the pen is (e.g. "Restroom" or "Cafeteria")
+        // Side of the board containing the pen.
         protected string boardSide;
-        // Stores the style of the pen (e.g. "Woodlands" or "Grasslands")
+        // Habitat style of the pen.
         protected string penStyle;
-        // Stores the max number of dinos allowed in the pen
+        // Maximum number of dinosaurs allowed in the pen.
         protected int maxDinos;
 
 
@@ -101,7 +104,11 @@ namespace Assignment2
             this.YPos = yPos;
         }
 
-        // Assign x and y values for all the dinos in the pen based on their index in the list
+        /// <summary>
+        /// Assigns drawing positions to the dinosaurs based on their order in the pen.
+        /// </summary>
+        /// <param name="x">Horizontal origin of the pen.</param>
+        /// <param name="y">Vertical origin of the pen.</param>
         public void assignDinoPositions(int x, int y)
         {
             int perRow = Math.Max(1, Width / 50);   // dinos that fit across the pen
@@ -138,6 +145,12 @@ namespace Assignment2
             return CalculatePoints();
         }
 
+        /// <summary>
+        /// Calculates points using board context when a pen's scoring rule needs it.
+        /// </summary>
+        /// <param name="ownZoo">Board belonging to the pen's owner.</param>
+        /// <param name="opponentZoo">Opponent board used for comparative scoring.</param>
+        /// <returns>Points awarded by the pen.</returns>
         public virtual int CalculatePoints(Board ownZoo, Board opponentZoo)
         {
             return CalculatePoints();   // most pens don't need the boards
@@ -146,14 +159,18 @@ namespace Assignment2
         /// <summary>
         /// Checks if a dino can be placed in the pen based on the pen's condition and the dino's species
         /// </summary>
-        /// <param name="dino"></param>
-        /// <param name="condition"></param>
-        /// <returns></returns>
+        /// <param name="dino">Dinosaur being tested.</param>
+        /// <param name="condition">Current placement condition.</param>
+        /// <param name="unrestricted">Whether the roller ignores the die condition.</param>
+        /// <returns><c>true</c> when the dinosaur may be placed.</returns>
         public abstract bool CanPlaceDino(Dino dino, PlacementCondition condition, bool unrestricted);
 
         /// <summary>
-        /// Returns true if this pen satisfies the die condition (always true for the roller).
+        /// Determines whether the pen satisfies the die condition.
         /// </summary>
+        /// <param name="condition">Condition rolled for the turn.</param>
+        /// <param name="unrestricted">Whether the roller bypasses the condition.</param>
+        /// <returns><c>true</c> when the condition is satisfied.</returns>
         protected bool MeetsPlacementCondition(PlacementCondition condition, bool unrestricted)
         {
             if (unrestricted)
@@ -174,15 +191,13 @@ namespace Assignment2
         /// <summary>
         /// Adds a dino to the pen if allowed
         /// </summary>
-        /// <param name="dino"></param>
+        /// <param name="dino">Dinosaur to add.</param>
         public abstract void AddDino(Dino dino);
 
         /// <summary>
         /// Draws the pen and its contents on the graphics object
         /// </summary>
-        /// <param name="g"></param>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="g">Graphics surface on which to draw.</param>
         public virtual void Draw(Graphics g)
         {
             // Draw the pen as a rectangle

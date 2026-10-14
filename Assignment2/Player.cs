@@ -20,6 +20,7 @@ namespace Assignment2
         // Holds the list of dino objects in the player's hand
         protected List<Dino> dinoHandList = new List<Dino>();
 
+        // Board representing the player's zoo.
         protected Board zoo;
 
         /// <summary>
