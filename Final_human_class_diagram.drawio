@@ -1,0 +1,259 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Page-1" id="pqV4XVd_4nUa_b5H91UY">
+    <mxGraphModel dx="3238" dy="2798" grid="0" gridSize="10" guides="0" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-72" edge="1" parent="1" source="jsnJBg8pnOxZ2InjBVYx-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=diamond;endFill=1;endSize=14;startSize=8;strokeWidth=2;" target="jsnJBg8pnOxZ2InjBVYx-46">
+          <mxGeometry relative="1" x="-0.001" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-1" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Game" vertex="1">
+          <mxGeometry height="458" width="260" x="630" y="-470" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-2" parent="jsnJBg8pnOxZ2InjBVYx-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;− AiStrategy aiStrategy&lt;/div&gt;&lt;div&gt;# Dice dice&lt;/div&gt;&lt;div&gt;+ List&amp;lt;Player&amp;gt; players&lt;/div&gt;&lt;div&gt;# DinoBag bag&lt;/div&gt;&lt;div&gt;+ int roundNumber, turnNumber&lt;/div&gt;&lt;div&gt;# PlacementCondition currentCondition&lt;/div&gt;&lt;div&gt;− bool hasRolled, turnComplete&lt;/div&gt;&lt;div&gt;− int rollerIndex&lt;/div&gt;&lt;div&gt;− bool rollerPlacementComplete&lt;/div&gt;&lt;div&gt;+ PlacementCondition CurrentCondition&lt;/div&gt;&lt;div&gt;+ bool HasRolled, TurnComplete&lt;/div&gt;&lt;div&gt;+ int RollerIndex&lt;/div&gt;&lt;div&gt;+ bool RollerPlacementComplete&lt;/div&gt;" vertex="1">
+          <mxGeometry height="204" width="260" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-3" parent="jsnJBg8pnOxZ2InjBVYx-1" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="260" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-4" parent="jsnJBg8pnOxZ2InjBVYx-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;+ Game()&lt;/div&gt;&lt;div&gt;+ LoadGame(object, EventArgs): void&lt;/div&gt;&lt;div&gt;+ RollDice(): PlacementCondition&lt;/div&gt;&lt;div&gt;+ StartRound(): bool&lt;/div&gt;&lt;div&gt;+&amp;nbsp;PlacePlayerDinoRiver(Dino): bool&lt;/div&gt;&lt;div&gt;+ PlacePlayerDino(Dino, Pen): bool&lt;/div&gt;&lt;div&gt;+&amp;nbsp;AttemptPlaceDino(int, Dino, Pen, Bool): bool&lt;/div&gt;&lt;div&gt;+ PlaceAiDino(bool): bool&lt;/div&gt;&lt;div&gt;+&amp;nbsp;BeginAiTurn(): bool&lt;/div&gt;&lt;div&gt;+ CompleteTurn(): void&lt;/div&gt;&lt;div&gt;+ DealHands(): void&lt;/div&gt;&lt;div&gt;+ SwapHands(): void&lt;/div&gt;&lt;div&gt;+ CheckRound(): bool&lt;/div&gt;&lt;div&gt;+&amp;nbsp;EndGame(): void&lt;/div&gt;" vertex="1">
+          <mxGeometry height="220" width="260" y="238" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-59" edge="1" parent="1" source="jsnJBg8pnOxZ2InjBVYx-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=diamond;endFill=1;endSize=14;startSize=8;strokeWidth=2;" target="jsnJBg8pnOxZ2InjBVYx-4">
+          <mxGeometry relative="1" x="-0.0066" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-5" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Player" vertex="1">
+          <mxGeometry height="235" width="410" x="100" y="-180" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-6" parent="jsnJBg8pnOxZ2InjBVYx-5" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;# string name&lt;/div&gt;&lt;div&gt;# int points&lt;/div&gt;&lt;div&gt;# List&amp;lt;Dino&amp;gt; dinoHandList&lt;/div&gt;&lt;div&gt;# Board zoo&lt;/div&gt;&lt;div&gt;+ string Name {get;set;}&lt;/div&gt;&lt;div&gt;+ int Points {get;set;}&lt;/div&gt;&lt;div&gt;+ List&amp;lt;Dino&amp;gt; DinoHandList&lt;/div&gt;&lt;div&gt;+ Board Zoo {get;set;}&lt;/div&gt;" vertex="1">
+          <mxGeometry height="129" width="410" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-7" parent="jsnJBg8pnOxZ2InjBVYx-5" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="410" y="155" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-8" parent="jsnJBg8pnOxZ2InjBVYx-5" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;+ Player(string)&lt;/div&gt;&lt;div&gt;+ checkDinoPlacement(Dino, PlacementCondition, Pen, bool): bool&lt;/div&gt;&lt;div&gt;+ PlaceDino(Dino, Pen): void&lt;/div&gt;&lt;div&gt;+ DrawDinoHand(Graphics, int): void&lt;/div&gt;" vertex="1">
+          <mxGeometry height="72" width="410" y="163" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-65" edge="1" parent="1" source="jsnJBg8pnOxZ2InjBVYx-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endArrow=diamond;endFill=1;endSize=14;startSize=8;strokeWidth=2;" target="jsnJBg8pnOxZ2InjBVYx-2">
+          <mxGeometry relative="1" x="0.0039" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-9" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="AiStrategy" vertex="1">
+          <mxGeometry height="210" width="370" x="990" y="-500" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-10" parent="jsnJBg8pnOxZ2InjBVYx-9" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;− static Random rand&lt;/div&gt;&lt;div&gt;− const double MistakeChance&lt;/div&gt;&lt;div&gt;− static int[] ForestGain&lt;/div&gt;&lt;div&gt;− static int[] MeadowGain&lt;/div&gt;" vertex="1">
+          <mxGeometry height="72" width="370" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-11" parent="jsnJBg8pnOxZ2InjBVYx-9" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="370" y="98" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-12" parent="jsnJBg8pnOxZ2InjBVYx-9" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;+ ChooseMove(Player, Player,&amp;nbsp;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;PlacementCondition, bool): AiMove&lt;/span&gt;&lt;/div&gt;&lt;div&gt;− IsLegal(Player, Dino, Pen, PlacementCondition, bool): bool&lt;/div&gt;&lt;div&gt;− ScoreRiver(Dino): double&lt;/div&gt;&lt;div&gt;− ScorePen(Player, Player, Dino, Pen): double&lt;/div&gt;&lt;div&gt;- CountSpecies(Player, DinoSpecies): int&lt;/div&gt;" vertex="1">
+          <mxGeometry height="104" width="370" y="106" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-68" edge="1" parent="1" source="jsnJBg8pnOxZ2InjBVYx-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endArrow=diamond;endFill=1;endSize=14;startSize=8;strokeWidth=2;" target="jsnJBg8pnOxZ2InjBVYx-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-13" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Board" vertex="1">
+          <mxGeometry height="220" width="320" x="145" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-14" parent="jsnJBg8pnOxZ2InjBVYx-13" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;# List&amp;lt;Pen&amp;gt; penList&lt;/div&gt;&lt;div&gt;# River river&lt;/div&gt;&lt;div&gt;+ List&amp;lt;Pen&amp;gt; PenList&lt;/div&gt;&lt;div&gt;+ int RiverCount&lt;/div&gt;&lt;div&gt;+ int RiverPoints&lt;/div&gt;" vertex="1">
+          <mxGeometry height="84" width="320" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-15" parent="jsnJBg8pnOxZ2InjBVYx-13" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="320" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-16" parent="jsnJBg8pnOxZ2InjBVYx-13" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;+ Board()&lt;/div&gt;&lt;div&gt;+ GetValidPens(Dino,&amp;nbsp;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;PlacementCondition): List&amp;lt;Pen&amp;gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;+ CountSpecies(DinoSpecies): int&lt;/div&gt;&lt;div&gt;+ AddDinoRiver(Dino): void&lt;/div&gt;&lt;div&gt;+ DisplayRiver(Graphics): void&lt;/div&gt;" vertex="1">
+          <mxGeometry height="102" width="320" y="118" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-58" edge="1" parent="1" source="jsnJBg8pnOxZ2InjBVYx-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=diamond;endFill=1;endSize=14;startSize=8;strokeWidth=2;" target="jsnJBg8pnOxZ2InjBVYx-2">
+          <mxGeometry relative="1" x="0.0075" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-17" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="DinoBag" vertex="1">
+          <mxGeometry height="110" width="170" x="330" y="-400" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-18" parent="jsnJBg8pnOxZ2InjBVYx-17" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;# List&amp;lt;Dino&amp;gt; dinoList&lt;/div&gt;" vertex="1">
+          <mxGeometry height="24" width="170" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-19" parent="jsnJBg8pnOxZ2InjBVYx-17" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="170" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-20" parent="jsnJBg8pnOxZ2InjBVYx-17" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;+ CreateBag(Dino): void&lt;/div&gt;&lt;div&gt;+ Draw(int): List&amp;lt;Dino&amp;gt;&lt;/div&gt;&lt;div&gt;+ GetDinos(): List&amp;lt;Dino&amp;gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="52" width="170" y="58" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-64" edge="1" parent="1" source="jsnJBg8pnOxZ2InjBVYx-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endArrow=diamond;endFill=1;endSize=14;startSize=8;strokeWidth=2;" target="jsnJBg8pnOxZ2InjBVYx-10">
+          <mxGeometry relative="1" x="0.0061" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-21" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="AiMove" vertex="1">
+          <mxGeometry height="88" width="170" x="1470" y="-480" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-22" parent="jsnJBg8pnOxZ2InjBVYx-21" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ Dino Dino&lt;div&gt;+ Pen Pen&lt;/div&gt;&lt;div&gt;+ double Score&lt;/div&gt;" vertex="1">
+          <mxGeometry height="54" width="170" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-23" parent="jsnJBg8pnOxZ2InjBVYx-21" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="170" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-71" edge="1" parent="1" source="jsnJBg8pnOxZ2InjBVYx-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endArrow=diamond;endFill=1;endSize=14;startSize=8;strokeWidth=2;" target="jsnJBg8pnOxZ2InjBVYx-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-25" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Dice" vertex="1">
+          <mxGeometry height="125" width="260" x="630" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-26" parent="jsnJBg8pnOxZ2InjBVYx-25" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;# List&amp;lt;PlacementCondition&amp;gt; rollTypes&lt;/div&gt;&lt;div&gt;# PlacementCondition currentCondition&lt;/div&gt;" vertex="1">
+          <mxGeometry height="39" width="260" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-27" parent="jsnJBg8pnOxZ2InjBVYx-25" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="260" y="65" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-28" parent="jsnJBg8pnOxZ2InjBVYx-25" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;+ Roll(): PlacementCondition&lt;/div&gt;" vertex="1">
+          <mxGeometry height="52" width="260" y="73" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-67" edge="1" parent="1" source="jsnJBg8pnOxZ2InjBVYx-29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endArrow=diamond;endFill=1;endSize=14;startSize=8;strokeWidth=2;" target="jsnJBg8pnOxZ2InjBVYx-14">
+          <mxGeometry relative="1" x="0.0033" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-29" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="River" vertex="1">
+          <mxGeometry height="147.5" width="190" x="570" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-30" parent="jsnJBg8pnOxZ2InjBVYx-29" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;# List&amp;lt;Dino&amp;gt; dinoList&lt;/div&gt;&lt;div&gt;+ int Count&lt;/div&gt;" vertex="1">
+          <mxGeometry height="39" width="190" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-31" parent="jsnJBg8pnOxZ2InjBVYx-29" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="190" y="65" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-32" parent="jsnJBg8pnOxZ2InjBVYx-29" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;+ AddDino(Dino): void&lt;/div&gt;&lt;div&gt;+ CalculatePoints(): int&lt;/div&gt;&lt;div&gt;+ CountSpecies(DinoSpecies): int&lt;/div&gt;&lt;div&gt;+ Draw(Graphics): void&lt;/div&gt;" vertex="1">
+          <mxGeometry height="74.5" width="190" y="73" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-70" edge="1" parent="1" source="jsnJBg8pnOxZ2InjBVYx-33" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=diamond;endFill=1;endSize=14;startSize=8;strokeWidth=2;" target="jsnJBg8pnOxZ2InjBVYx-20">
+          <mxGeometry relative="1" x="0.0026" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-33" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Dino" vertex="1">
+          <mxGeometry height="202.5" width="200" x="-20" y="-466.25" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-34" parent="jsnJBg8pnOxZ2InjBVYx-33" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;# DinoSpecies species&lt;/div&gt;&lt;div&gt;# int xPos, yPos&lt;/div&gt;&lt;div&gt;− const int DINO_SIZE&lt;/div&gt;&lt;div&gt;+ DinoSpecies Species&lt;/div&gt;&lt;div&gt;+ int XPos, YPos&lt;/div&gt;" vertex="1">
+          <mxGeometry height="94" width="200" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-35" parent="jsnJBg8pnOxZ2InjBVYx-33" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="200" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-36" parent="jsnJBg8pnOxZ2InjBVYx-33" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;+ Dino(DinoSpecies, int, int)&lt;/div&gt;&lt;div&gt;+ IsClicked(int, int): bool&lt;/div&gt;&lt;div&gt;+ Draw(Graphics): void&lt;/div&gt;" vertex="1">
+          <mxGeometry height="74.5" width="200" y="128" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-66" edge="1" parent="1" source="jsnJBg8pnOxZ2InjBVYx-38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endArrow=diamond;endFill=1;endSize=14;startSize=8;strokeWidth=2;" target="jsnJBg8pnOxZ2InjBVYx-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-38" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="&amp;lt;&amp;lt;abstract&amp;gt;&amp;gt; Pen" vertex="1">
+          <mxGeometry height="345.5" width="355" x="127.5" y="507.5" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-39" parent="jsnJBg8pnOxZ2InjBVYx-38" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;# string name, boardSide, penStyle&lt;/div&gt;&lt;div&gt;# int height, width, xPos, yPos&lt;/div&gt;&lt;div&gt;# List&amp;lt;Dino&amp;gt; dinoList&lt;/div&gt;&lt;div&gt;# int points, maxDinos&lt;/div&gt;&lt;div&gt;+ Name, BoardSide, PenStyle: string&lt;/div&gt;&lt;div&gt;+ Height, Width, XPos, YPos: int&lt;/div&gt;&lt;div&gt;+ List&amp;lt;Dino&amp;gt; DinoList&lt;/div&gt;&lt;div&gt;+ Points, MaxDinos: int&lt;/div&gt;" vertex="1">
+          <mxGeometry height="164" width="355" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-40" parent="jsnJBg8pnOxZ2InjBVYx-38" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="355" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-41" parent="jsnJBg8pnOxZ2InjBVYx-38" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;+ Pen(string,string,string,int,&amp;nbsp;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;int,int,int,int)&lt;/span&gt;&lt;/div&gt;&lt;div&gt;+ assignDinoPositions(int,int): void&lt;/div&gt;&lt;div&gt;+ HasTRex(): bool&lt;/div&gt;&lt;div&gt;+ CalculatePoints(): int&lt;/div&gt;&lt;div&gt;+ CalculatePoints(Board,Board): int&lt;/div&gt;&lt;div&gt;# MeetsPlacementCondition(PlacementCondition, bool): bool&lt;/div&gt;&lt;div&gt;+ CanPlaceDino(...): bool&lt;/div&gt;&lt;div&gt;+ AddDino(Dino): void&lt;/div&gt;&lt;div&gt;+ Draw(Graphics): voi&lt;/div&gt;" vertex="1">
+          <mxGeometry height="147.5" width="355" y="198" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-73" edge="1" parent="1" source="jsnJBg8pnOxZ2InjBVYx-42" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endSize=14;startSize=8;strokeWidth=2;" target="jsnJBg8pnOxZ2InjBVYx-38">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-42" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="PrairiePen : Pen" vertex="1">
+          <mxGeometry height="108.5" width="270" x="-80" y="940" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-44" parent="jsnJBg8pnOxZ2InjBVYx-42" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="270" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-45" parent="jsnJBg8pnOxZ2InjBVYx-42" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;+ PrairiePen(string,string,string,&amp;nbsp;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;int,int,int,int,int)&lt;/span&gt;&lt;/div&gt;&lt;div&gt;+ CalculatePoints(): int&lt;/div&gt;&lt;div&gt;+ CanPlaceDino(...): bool&lt;/div&gt;" vertex="1">
+          <mxGeometry height="74.5" width="270" y="34" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-46" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Game_form : Form" vertex="1">
+          <mxGeometry height="200" width="320" x="990" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-47" parent="jsnJBg8pnOxZ2InjBVYx-46" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;− Game game&lt;/div&gt;&lt;div&gt;− Dino selectedDino; Pen selectedPen&lt;/div&gt;&lt;div&gt;− int selectedPlayerIndex&lt;/div&gt;&lt;div&gt;+ StartNewGame(): void&lt;/div&gt;&lt;div&gt;+ DisplayGame(): void&lt;/div&gt;&lt;div&gt;− event handlers: MouseClick, Paint,&lt;/div&gt;&lt;div&gt;Click, Load, FormClosing&lt;/div&gt;" vertex="1">
+          <mxGeometry height="124" width="320" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-48" parent="jsnJBg8pnOxZ2InjBVYx-46" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="320" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-49" parent="jsnJBg8pnOxZ2InjBVYx-46" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;WinForms controls: 4 PictureBox,&lt;/div&gt;&lt;div&gt;4 Button/Label groups (designer fields)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="42" width="320" y="158" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-50" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=29;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;" value="&amp;lt;&amp;lt;enum&amp;gt;&amp;gt; DinoSpecies" vertex="1">
+          <mxGeometry height="130" width="180" x="1350" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-52" parent="jsnJBg8pnOxZ2InjBVYx-50" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;" value="&lt;div&gt;T_Rex&lt;/div&gt;&lt;div&gt;Triceratops&lt;/div&gt;&lt;div&gt;Velociraptor&lt;/div&gt;&lt;div&gt;Stegosaurus&lt;/div&gt;&lt;div&gt;Allosaurus&lt;/div&gt;&lt;div&gt;Dilophosaurus&lt;/div&gt;" vertex="1">
+          <mxGeometry height="101" width="180" y="29" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-53" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=29;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;" value="&amp;lt;&amp;lt;enum&amp;gt;&amp;gt; PlacementCondition" vertex="1">
+          <mxGeometry height="130" width="210" x="1560" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-54" parent="jsnJBg8pnOxZ2InjBVYx-53" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;" value="&lt;div&gt;Woodlands&lt;/div&gt;&lt;div&gt;Grasslands&lt;/div&gt;&lt;div&gt;Restrooms&amp;nbsp;&lt;/div&gt;&lt;div&gt;FoodCourt&lt;/div&gt;&lt;div&gt;EmptyPen&amp;nbsp;&lt;/div&gt;&lt;div&gt;T_Rex&lt;/div&gt;" vertex="1">
+          <mxGeometry height="101" width="210" y="29" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-55" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=29;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;" value="&amp;lt;&amp;lt;enum&amp;gt;&amp;gt; DinoPenCondition" vertex="1">
+          <mxGeometry height="75" width="210" x="1335" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-56" parent="jsnJBg8pnOxZ2InjBVYx-55" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;" value="&lt;div&gt;SameSpecies&lt;/div&gt;&lt;div&gt;DifferentSpecies&lt;/div&gt;" vertex="1">
+          <mxGeometry height="46" width="210" y="29" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-89" edge="1" parent="1" source="jsnJBg8pnOxZ2InjBVYx-74" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;strokeWidth=2;endSize=14;startSize=8;" target="jsnJBg8pnOxZ2InjBVYx-38">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-74" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="ForestPen : Pen" vertex="1">
+          <mxGeometry height="108.5" width="270" x="250" y="940" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-75" parent="jsnJBg8pnOxZ2InjBVYx-74" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="270" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-76" parent="jsnJBg8pnOxZ2InjBVYx-74" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;+ PrairiePen(string,string,string,&amp;nbsp;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;int,int,int,int,int)&lt;/span&gt;&lt;/div&gt;&lt;div&gt;+ CalculatePoints(): int&lt;/div&gt;&lt;div&gt;+ CanPlaceDino(...): bool&lt;/div&gt;" vertex="1">
+          <mxGeometry height="74.5" width="270" y="34" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-90" edge="1" parent="1" source="jsnJBg8pnOxZ2InjBVYx-77" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;strokeWidth=2;endSize=14;startSize=8;" target="jsnJBg8pnOxZ2InjBVYx-38">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-77" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="SolarityPen : Pen" vertex="1">
+          <mxGeometry height="108.5" width="270" x="580" y="940" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-78" parent="jsnJBg8pnOxZ2InjBVYx-77" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="270" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-79" parent="jsnJBg8pnOxZ2InjBVYx-77" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;+ PrairiePen(string,string,string,&amp;nbsp;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;int,int,int,int,int)&lt;/span&gt;&lt;/div&gt;&lt;div&gt;+ CalculatePoints(): int&lt;/div&gt;&lt;div&gt;+ CanPlaceDino(...): bool&lt;/div&gt;" vertex="1">
+          <mxGeometry height="74.5" width="270" y="34" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-91" edge="1" parent="1" source="jsnJBg8pnOxZ2InjBVYx-80" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;strokeWidth=2;endSize=14;startSize=8;" target="jsnJBg8pnOxZ2InjBVYx-38">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-80" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="MeadowPen : Pen" vertex="1">
+          <mxGeometry height="108.5" width="270" x="910" y="940" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-81" parent="jsnJBg8pnOxZ2InjBVYx-80" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="270" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-82" parent="jsnJBg8pnOxZ2InjBVYx-80" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;+ PrairiePen(string,string,string,&amp;nbsp;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;int,int,int,int,int)&lt;/span&gt;&lt;/div&gt;&lt;div&gt;+ CalculatePoints(): int&lt;/div&gt;&lt;div&gt;+ CanPlaceDino(...): bool&lt;/div&gt;" vertex="1">
+          <mxGeometry height="74.5" width="270" y="34" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-92" edge="1" parent="1" source="jsnJBg8pnOxZ2InjBVYx-83" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;strokeWidth=2;endSize=14;startSize=8;" target="jsnJBg8pnOxZ2InjBVYx-38">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-83" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="KingPen : Pen" vertex="1">
+          <mxGeometry height="108.5" width="270" x="1240" y="940" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-84" parent="jsnJBg8pnOxZ2InjBVYx-83" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="270" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-85" parent="jsnJBg8pnOxZ2InjBVYx-83" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;+ PrairiePen(string,string,string,&amp;nbsp;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;int,int,int,int,int)&lt;/span&gt;&lt;/div&gt;&lt;div&gt;+ CalculatePoints(): int&lt;/div&gt;&lt;div&gt;+ CanPlaceDino(...): bool&lt;/div&gt;" vertex="1">
+          <mxGeometry height="74.5" width="270" y="34" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-93" edge="1" parent="1" source="jsnJBg8pnOxZ2InjBVYx-86" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;strokeWidth=2;endSize=14;startSize=8;" target="jsnJBg8pnOxZ2InjBVYx-38">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-86" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="WoodyPen : Pen" vertex="1">
+          <mxGeometry height="108.5" width="270" x="1570" y="940" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-87" parent="jsnJBg8pnOxZ2InjBVYx-86" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="270" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="jsnJBg8pnOxZ2InjBVYx-88" parent="jsnJBg8pnOxZ2InjBVYx-86" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;+ PrairiePen(string,string,string,&amp;nbsp;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;int,int,int,int,int)&lt;/span&gt;&lt;/div&gt;&lt;div&gt;+ CalculatePoints(): int&lt;/div&gt;&lt;div&gt;+ CanPlaceDino(...): bool&lt;/div&gt;" vertex="1">
+          <mxGeometry height="74.5" width="270" y="34" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

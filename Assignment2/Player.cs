@@ -1,22 +1,27 @@
-﻿using System;
+﻿using Microsoft.Win32.SafeHandles;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Assignment2
 {
-    internal class Player
+    class Player
     {
 
         // Holds the name of the player
         protected string name;
-        // Holds whether it's the player's turn or not
-        protected bool isTurn;
         // Holds the points of the player
         protected int points;
         // Holds the list of dino objects in the player's hand
         protected List<Dino> dinoHandList = new List<Dino>();
+
+        // Board representing the player's zoo.
+        protected Board zoo;
 
         /// <summary>
         /// Gets or sets the name of the player.
@@ -25,14 +30,6 @@ namespace Assignment2
         {
             get { return name; }
             set { name = value; }
-        }
-        /// <summary>
-        /// Gets or sets a value indicating whether it's the player's turn.
-        /// </summary>
-        public bool IsTurn
-        {
-            get { return isTurn; }
-            set { isTurn = value; }
         }
         /// <summary>
         /// Gets or sets the points of the player.
@@ -51,15 +48,92 @@ namespace Assignment2
             set { dinoHandList = value; }
         }
 
+        public Board Zoo
+        {
+            get { return zoo; }
+            set { zoo = value; }
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Player"/> class.
         /// </summary>
         /// <param name="name"></param>
-        public Player(string name, bool isTurn, int points)
+        public Player(string name)
         {
+            // Assign player name
             this.name = name;
-            this.isTurn = isTurn;
-            this.points = points;
+
+            // Create board object
+            Zoo = new Board();
         }
+
+
+        /// <summary>
+        /// Returns true if selected dino can be placed in selected pen
+        /// </summary>
+        /// <param name="dino"></param>
+        /// <param name="condition"></param>
+        /// <param name="pen"></param>
+        /// <param name="unrestricted"></param>
+        /// <returns></returns>
+        public bool checkDinoPlacement(Dino dino, PlacementCondition condition, Pen pen, bool unrestricted)
+        {
+            if (dino == null || pen == null)
+            {
+                return false;
+            }
+            return pen.CanPlaceDino(dino, condition, unrestricted);
+        }
+
+        /// <summary>
+        /// Places a dino from the player's hand into the specified pen if the dino is clicked and the pen allows dinos.
+        /// </summary>
+        /// <param name="dino">Dino to place</param>
+        /// <param name="pen">Target pen</param>
+        public void PlaceDino(Dino dino, Pen pen)
+        {
+            if (dino == null || pen == null)
+                return;
+            try
+            {
+                // If the dino is clicked and the pen allows dinos, add the dino to the pen's dinoList
+                pen.AddDino(dino);
+                // Remove the dino from the player's hand
+                dinoHandList.Remove(dino);
+                // update positions for dinos inside the pen so they will draw correctly
+                pen.assignDinoPositions(pen.XPos, pen.YPos);
+                return;
+            }
+            catch
+            {
+                return;
+            }
+        }
+        
+
+        /// <summary>
+        /// Draws the player's hand into the provided graphics surface. This method assigns
+        /// positions for each dino so hit-testing with their IsClicked method works using
+        /// coordinates relative to the picture box image.
+        /// </summary>
+        /// <param name="g">Graphics surface for the hand image</param>
+        /// <param name="areaWidth">Width of the drawing area (use the PictureBox width)</param>
+        public void DrawDinoHand(Graphics g, int areaWidth)
+        {
+            // simple layout: space dinos horizontally with a fixed spacing
+            const int spacing = 50; // matches Dino drawing size used elsewhere
+            const int margin = 10;
+
+            for (int i = 0; i < dinoHandList.Count; i++)
+            {
+                Dino dino = dinoHandList[i];
+                // position dino inside the hand area
+                dino.XPos = margin + (i * spacing);
+                dino.YPos = margin;
+                dino.Draw(g);
+            }
+        }
+
+
     }
 }
