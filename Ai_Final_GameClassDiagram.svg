@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1900" height="2500" viewBox="0 0 1900 2500">
+  <title>Assignment2 Dinosaur Game Class Diagram</title>
+  <desc>Class diagram showing the game model, pen hierarchy, enums, orchestration and Windows Forms UI.</desc>
+  <style>
+	.bg { fill:#f8fafc; }
+	.title { font:700 28px Segoe UI,Arial,sans-serif; fill:#172033; }
+	.subtitle { font:14px Segoe UI,Arial,sans-serif; fill:#526071; }
+	.box { fill:#ffffff; stroke:#344054; stroke-width:2; rx:8; }
+	.enum { fill:#fff8e7; stroke:#b7791f; stroke-width:2; rx:8; }
+	.ui { fill:#eef6ff; stroke:#2b6cb0; stroke-width:2; rx:8; }
+	.generated { fill:#f2f4f7; stroke:#667085; stroke-width:1.5; rx:8; }
+	.head { fill:#e7edf5; }
+	.enumhead { fill:#fcefc7; }
+	.uihead { fill:#dbeafe; }
+	.genhead { fill:#e4e7ec; }
+	.name { font:700 17px Segoe UI,Arial,sans-serif; fill:#172033; }
+	.stereo { font:italic 12px Segoe UI,Arial,sans-serif; fill:#667085; }
+	.member { font:12px Consolas,monospace; fill:#273142; }
+	.small { font:11px Segoe UI,Arial,sans-serif; fill:#526071; }
+	.rel { stroke:#667085; stroke-width:1.7; fill:none; }
+	.inherit { stroke:#344054; stroke-width:2; fill:#fff; }
+	.aggregate { stroke:#526071; stroke-width:1.7; fill:#fff; }
+	.label { font:11px Segoe UI,Arial,sans-serif; fill:#475467; }
+	.section { font:700 16px Segoe UI,Arial,sans-serif; fill:#344054; }
+  </style>
+  <rect class="bg" width="1900" height="2500"/>
+  <text class="title" x="50" y="45">Assignment2 — Dinosaur Game Class Diagram</text>
+  <text class="subtitle" x="50" y="70">Member-level overview generated from the .NET Framework 4.7.2 project • + public • # protected • − private • ~ internal</text>
+
+  <!-- relationship lines behind boxes -->
+  <path class="rel" d="M360 245 L580 245"/><text class="label" x="405" y="235">owns / uses</text>
+  <path class="rel" d="M360 245 L360 650"/><text class="label" x="368" y="450">players</text>
+  <path class="rel" d="M360 245 L1040 245"/><text class="label" x="700" y="235">uses</text>
+  <path class="rel" d="M360 245 L1420 245"/><text class="label" x="1080" y="235">uses</text>
+  <path class="rel" d="M360 245 L360 1030"/>
+  <path class="rel" d="M580 450 L800 450"/><text class="label" x="635" y="440">zoo</text>
+  <path class="rel" d="M800 450 L1040 450"/><text class="label" x="855" y="440">pens</text>
+  <path class="rel" d="M800 450 L1420 450"/><text class="label" x="1110" y="440">river</text>
+  <path class="rel" d="M1040 650 L1420 650"/><text class="label" x="1180" y="640">contains</text>
+  <path class="rel" d="M1040 650 L1040 1030"/>
+  <path class="rel" d="M1420 650 L1420 1030"/>
+  <path class="rel" d="M580 1030 L800 1030"/><text class="label" x="630" y="1020">contains</text>
+  <path class="rel" d="M800 1030 L1040 1030"/>
+  <path class="rel" d="M1040 1030 L1420 1030"/>
+  <!-- inheritance connectors -->
+  <path class="rel" d="M1040 1470 L1040 1530"/><path class="inherit" d="M1029 1545 L1040 1530 L1051 1545 Z"/>
+  <path class="rel" d="M1040 1470 L740 1580"/><path class="inherit" d="M725 1586 L740 1580 L734 1595 Z"/>
+  <path class="rel" d="M1040 1470 L1340 1580"/><path class="inherit" d="M1325 1574 L1340 1580 L1346 1565 Z"/>
+  <path class="rel" d="M1040 1470 L420 1730"/><path class="inherit" d="M405 1736 L420 1730 L414 1745 Z"/>
+  <path class="rel" d="M1040 1470 L1660 1730"/><path class="inherit" d="M1645 1724 L1660 1730 L1666 1715 Z"/>
+  <path class="rel" d="M1040 1470 L740 1900"/><path class="inherit" d="M725 1906 L740 1900 L734 1885 Z"/>
+  <path class="rel" d="M1040 1470 L1340 1900"/><path class="inherit" d="M1325 1894 L1340 1900 L1346 1885 Z"/>
+
+  <text class="section" x="50" y="115">Core orchestration</text>
+  <!-- Game -->
+  <g transform="translate(50,130)"><rect class="box" width="310" height="390"/><rect class="head" width="310" height="42"/><text class="name" x="12" y="25">~ Game</text><text class="stereo" x="210" y="25">controller</text>
+	<text class="member" x="12" y="65">− AiStrategy aiStrategy</text><text class="member" x="12" y="83"># Dice dice</text><text class="member" x="12" y="101">+ List&lt;Player&gt; players</text><text class="member" x="12" y="119"># DinoBag bag</text><text class="member" x="12" y="137">+ int roundNumber, turnNumber</text><text class="member" x="12" y="155"># PlacementCondition currentCondition</text><text class="member" x="12" y="173">− bool hasRolled, turnComplete</text><text class="member" x="12" y="191">− int rollerIndex</text><text class="member" x="12" y="209">− bool rollerPlacementComplete</text><text class="member" x="12" y="235">+ PlacementCondition CurrentCondition</text><text class="member" x="12" y="253">+ bool HasRolled, TurnComplete</text><text class="member" x="12" y="271">+ int RollerIndex</text><text class="member" x="12" y="289">+ bool RollerPlacementComplete</text><line class="rel" x1="0" y1="302" x2="310" y2="302"/><text class="member" x="12" y="324">+ Game()</text><text class="member" x="12" y="342">+ LoadGame(object, EventArgs): void</text><text class="member" x="12" y="360">+ RollDice(): PlacementCondition</text><text class="member" x="12" y="378">+ StartRound(): bool</text></g>
+  <!-- Ai -->
+  <g transform="translate(580,130)"><rect class="box" width="310" height="250"/><rect class="head" width="310" height="42"/><text class="name" x="12" y="25">AiStrategy</text><text class="member" x="12" y="65">− static Random rand</text><text class="member" x="12" y="83">− const double MistakeChance</text><text class="member" x="12" y="101">− static int[] ForestGain</text><text class="member" x="12" y="119">− static int[] MeadowGain</text><line class="rel" x1="0" y1="132" x2="310" y2="132"/><text class="member" x="12" y="154">+ ChooseMove(Player, Player,</text><text class="member" x="12" y="172">  PlacementCondition, bool): AiMove</text><text class="member" x="12" y="196">− IsLegal(...): bool</text><text class="member" x="12" y="214">− ScoreRiver(Dino): double</text><text class="member" x="12" y="232">− ScorePen(...): double</text></g>
+  <!-- AiMove -->
+  <g transform="translate(1040,130)"><rect class="box" width="310" height="150"/><rect class="head" width="310" height="42"/><text class="name" x="12" y="25">AiMove</text><text class="member" x="12" y="68">+ Dino Dino</text><text class="member" x="12" y="88">+ Pen Pen</text><text class="member" x="12" y="108">+ double Score</text></g>
+  <!-- Dice -->
+  <g transform="translate(1420,130)"><rect class="box" width="310" height="150"/><rect class="head" width="310" height="42"/><text class="name" x="12" y="25">Dice</text><text class="member" x="12" y="68"># List&lt;PlacementCondition&gt; rollTypes</text><text class="member" x="12" y="88"># PlacementCondition currentCondition</text><line class="rel" x1="0" y1="100" x2="310" y2="100"/><text class="member" x="12" y="124">+ Roll(): PlacementCondition</text></g>
+
+  <text class="section" x="50" y="575">Players, board and movable game objects</text>
+  <!-- Player -->
+  <g transform="translate(50,590)"><rect class="box" width="310" height="350"/><rect class="head" width="310" height="42"/><text class="name" x="12" y="25">Player</text><text class="member" x="12" y="65"># string name</text><text class="member" x="12" y="83"># int points</text><text class="member" x="12" y="101"># List&lt;Dino&gt; dinoHandList</text><text class="member" x="12" y="119"># Board zoo</text><text class="member" x="12" y="145">+ string Name {get;set;}</text><text class="member" x="12" y="163">+ int Points {get;set;}</text><text class="member" x="12" y="181">+ List&lt;Dino&gt; DinoHandList</text><text class="member" x="12" y="199">+ Board Zoo {get;set;}</text><line class="rel" x1="0" y1="212" x2="310" y2="212"/><text class="member" x="12" y="234">+ Player(string)</text><text class="member" x="12" y="252">+ checkDinoPlacement(...): bool</text><text class="member" x="12" y="270">+ PlaceDino(Dino, Pen): void</text><text class="member" x="12" y="288">+ DrawDinoHand(Graphics, int): void</text></g>
+  <!-- Board -->
+  <g transform="translate(580,590)"><rect class="box" width="310" height="300"/><rect class="head" width="310" height="42"/><text class="name" x="12" y="25">Board</text><text class="member" x="12" y="65"># List&lt;Pen&gt; penList</text><text class="member" x="12" y="83"># River river</text><text class="member" x="12" y="109">+ List&lt;Pen&gt; PenList</text><text class="member" x="12" y="127">+ int RiverCount</text><text class="member" x="12" y="145">+ int RiverPoints</text><line class="rel" x1="0" y1="158" x2="310" y2="158"/><text class="member" x="12" y="180">+ Board()</text><text class="member" x="12" y="198">+ GetValidPens(Dino,</text><text class="member" x="12" y="216">  PlacementCondition): List&lt;Pen&gt;</text><text class="member" x="12" y="234">+ CountSpecies(DinoSpecies): int</text><text class="member" x="12" y="252">+ AddDinoRiver(Dino): void</text><text class="member" x="12" y="270">+ DisplayRiver(Graphics): void</text></g>
+  <!-- DinoBag -->
+  <g transform="translate(1040,590)"><rect class="box" width="310" height="200"/><rect class="head" width="310" height="42"/><text class="name" x="12" y="25">DinoBag</text><text class="member" x="12" y="68"># List&lt;Dino&gt; dinoList</text><line class="rel" x1="0" y1="82" x2="310" y2="82"/><text class="member" x="12" y="106">+ CreateBag(Dino): void</text><text class="member" x="12" y="124">+ Draw(int): List&lt;Dino&gt;</text><text class="member" x="12" y="142">+ GetDinos(): List&lt;Dino&gt;</text></g>
+  <!-- River -->
+  <g transform="translate(1420,590)"><rect class="box" width="310" height="200"/><rect class="head" width="310" height="42"/><text class="name" x="12" y="25">River</text><text class="member" x="12" y="68"># List&lt;Dino&gt; dinoList</text><text class="member" x="12" y="86">+ int Count</text><line class="rel" x1="0" y1="100" x2="310" y2="100"/><text class="member" x="12" y="124">+ AddDino(Dino): void</text><text class="member" x="12" y="142">+ CalculatePoints(): int</text><text class="member" x="12" y="160">+ CountSpecies(DinoSpecies): int</text><text class="member" x="12" y="178">+ Draw(Graphics): void</text></g>
+  <!-- Dino -->
+  <g transform="translate(50,1000)"><rect class="box" width="310" height="240"/><rect class="head" width="310" height="42"/><text class="name" x="12" y="25">Dino</text><text class="member" x="12" y="65"># DinoSpecies species</text><text class="member" x="12" y="83"># int xPos, yPos</text><text class="member" x="12" y="101">− const int DINO_SIZE</text><text class="member" x="12" y="127">+ DinoSpecies Species</text><text class="member" x="12" y="145">+ int XPos, YPos</text><line class="rel" x1="0" y1="158" x2="310" y2="158"/><text class="member" x="12" y="180">+ Dino(DinoSpecies, int, int)</text><text class="member" x="12" y="198">+ IsClicked(int, int): bool</text><text class="member" x="12" y="216">+ Draw(Graphics): void</text></g>
+
+  <text class="section" x="50" y="1300">Pens and scoring rules</text>
+  <!-- Pen base -->
+  <g transform="translate(890,1320)"><rect class="box" width="310" height="400"/><rect class="head" width="310" height="42"/><text class="name" x="12" y="25">&lt;&lt;abstract&gt;&gt; Pen</text><text class="member" x="12" y="65"># string name, boardSide, penStyle</text><text class="member" x="12" y="83"># int height, width, xPos, yPos</text><text class="member" x="12" y="101"># List&lt;Dino&gt; dinoList</text><text class="member" x="12" y="119"># int points, maxDinos</text><text class="member" x="12" y="145">+ Name, BoardSide, PenStyle: string</text><text class="member" x="12" y="163">+ Height, Width, XPos, YPos: int</text><text class="member" x="12" y="181">+ List&lt;Dino&gt; DinoList</text><text class="member" x="12" y="199">+ Points, MaxDinos: int</text><line class="rel" x1="0" y1="212" x2="310" y2="212"/><text class="member" x="12" y="234">+ Pen(string,string,string,int,</text><text class="member" x="12" y="252">  int,int,int,int)</text><text class="member" x="12" y="276">+ assignDinoPositions(int,int): void</text><text class="member" x="12" y="294">+ HasTRex(): bool</text><text class="member" x="12" y="312">+ CalculatePoints(): int</text><text class="member" x="12" y="330">+ CalculatePoints(Board,Board): int</text><text class="member" x="12" y="348">+ CanPlaceDino(...): bool</text><text class="member" x="12" y="366">+ AddDino(Dino): void</text><text class="member" x="12" y="384">+ Draw(Graphics): void</text></g>
+  <!-- concrete pens row 1 -->
+  <g transform="translate(50,1550)"><rect class="box" width="310" height="145"/><rect class="head" width="310" height="42"/><text class="name" x="12" y="25">ForestPen : Pen</text><text class="member" x="12" y="68">+ ForestPen(string,string,string,</text><text class="member" x="12" y="86">  int,int,int,int,int)</text><text class="member" x="12" y="110">+ CalculatePoints(): int</text><text class="member" x="12" y="128">+ CanPlaceDino(...): bool</text></g>
+  <g transform="translate(420,1550)"><rect class="box" width="310" height="145"/><rect class="head" width="310" height="42"/><text class="name" x="12" y="25">MeadowPen : Pen</text><text class="member" x="12" y="68">+ MeadowPen(string,string,string,</text><text class="member" x="12" y="86">  int,int,int,int,int)</text><text class="member" x="12" y="110">+ CalculatePoints(): int</text><text class="member" x="12" y="128">+ CanPlaceDino(...): bool</text></g>
+  <g transform="translate(790,1550)"><rect class="box" width="310" height="145"/><rect class="head" width="310" height="42"/><text class="name" x="12" y="25">PrairiePen : Pen</text><text class="member" x="12" y="68">+ PrairiePen(string,string,string,</text><text class="member" x="12" y="86">  int,int,int,int,int)</text><text class="member" x="12" y="110">+ CalculatePoints(): int</text><text class="member" x="12" y="128">+ CanPlaceDino(...): bool</text></g>
+  <g transform="translate(1160,1550)"><rect class="box" width="310" height="145"/><rect class="head" width="310" height="42"/><text class="name" x="12" y="25">WoodyPen : Pen</text><text class="member" x="12" y="68">+ WoodyPen(string,string,string,</text><text class="member" x="12" y="86">  int,int,int,int,int)</text><text class="member" x="12" y="110">+ CalculatePoints(): int</text><text class="member" x="12" y="128">+ CanPlaceDino(...): bool</text></g>
+  <g transform="translate(1530,1550)"><rect class="box" width="310" height="145"/><rect class="head" width="310" height="42"/><text class="name" x="12" y="25">KingPen : Pen</text><text class="member" x="12" y="68">+ KingPen(string,string,string,</text><text class="member" x="12" y="86">  int,int,int,int,int)</text><text class="member" x="12" y="110">+ CalculatePoints(Board,Board): int</text><text class="member" x="12" y="128">+ CanPlaceDino(...): bool</text></g>
+  <g transform="translate(790,1770)"><rect class="box" width="310" height="145"/><rect class="head" width="310" height="42"/><text class="name" x="12" y="25">SolarityPen : Pen</text><text class="member" x="12" y="68">+ SolarityPen(string,string,string,</text><text class="member" x="12" y="86">  int,int,int,int,int)</text><text class="member" x="12" y="110">+ CalculatePoints(Board,Board): int</text><text class="member" x="12" y="128">+ CanPlaceDino(...): bool</text></g>
+
+  <text class="section" x="50" y="2010">Enums and presentation layer</text>
+  <g transform="translate(50,2030)"><rect class="enum" width="310" height="190"/><rect class="enumhead" width="310" height="42"/><text class="name" x="12" y="25">&lt;&lt;enum&gt;&gt; DinoSpecies</text><text class="member" x="12" y="68">T_Rex</text><text class="member" x="12" y="86">Triceratops</text><text class="member" x="12" y="104">Velociraptor</text><text class="member" x="12" y="122">Stegosaurus</text><text class="member" x="12" y="140">Allosaurus</text><text class="member" x="12" y="158">Dilophosaurus</text></g>
+  <g transform="translate(420,2030)"><rect class="enum" width="310" height="145"/><rect class="enumhead" width="310" height="42"/><text class="name" x="12" y="25">&lt;&lt;enum&gt;&gt; PlacementCondition</text><text class="member" x="12" y="68">Woodlands | Grasslands</text><text class="member" x="12" y="86">Restrooms | FoodCourt</text><text class="member" x="12" y="104">EmptyPen | T_Rex</text></g>
+  <g transform="translate(790,2030)"><rect class="enum" width="310" height="110"/><rect class="enumhead" width="310" height="42"/><text class="name" x="12" y="25">&lt;&lt;enum&gt;&gt; DinoPenCondition</text><text class="member" x="12" y="68">SameSpecies</text><text class="member" x="12" y="86">DifferentSpecies</text></g>
+  <g transform="translate(1160,2030)"><rect class="ui" width="340" height="270"/><rect class="uihead" width="340" height="42"/><text class="name" x="12" y="25">Game_form : Form</text><text class="member" x="12" y="65">− Game game</text><text class="member" x="12" y="83">− Dino selectedDino; Pen selectedPen</text><text class="member" x="12" y="101">− int selectedPlayerIndex</text><text class="member" x="12" y="127">+ StartNewGame(): void</text><text class="member" x="12" y="145">+ DisplayGame(): void</text><text class="member" x="12" y="163">− event handlers: MouseClick, Paint,</text><text class="member" x="12" y="181">  Click, Load, FormClosing</text><line class="rel" x1="0" y1="194" x2="340" y2="194"/><text class="small" x="12" y="216">WinForms controls: 4 PictureBox,</text><text class="small" x="12" y="233">4 Button/Label groups (designer fields)</text></g>
+  <g transform="translate(1540,2030)"><rect class="generated" width="300" height="150"/><rect class="genhead" width="300" height="42"/><text class="name" x="12" y="25">&lt;&lt;generated&gt;&gt; Program</text><text class="member" x="12" y="68">− static Main(): void</text><text class="small" x="12" y="100">Starts Game_form</text></g>
+  <g transform="translate(1540,2210)"><rect class="generated" width="300" height="150"/><rect class="genhead" width="300" height="42"/><text class="name" x="12" y="25">&lt;&lt;generated&gt;&gt; Resources</text><text class="member" x="12" y="68">+ ResourceManager ResourceManager</text><text class="member" x="12" y="86">+ CultureInfo Culture</text><text class="member" x="12" y="104">+ Bitmap Board, Board_600_600, Board1</text></g>
+
+  <text class="small" x="50" y="2380">Solid arrows/connectors indicate associations; hollow triangles point to the abstract Pen base. Collections are shown with their generic element types.</text>
+  <text class="small" x="50" y="2400">Note: Game.cs contains additional turn/placement methods (PlacePlayerDino, PlaceAiDino, BeginAiTurn, CheckRound, EndGame); compacted here to keep the diagram readable.</text>
+</svg>

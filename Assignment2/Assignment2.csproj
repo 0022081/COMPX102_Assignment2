@@ -101,5 +101,8 @@
   <ItemGroup>
     <None Include="Resources\Board1.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="GameClassDiagram.svg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
