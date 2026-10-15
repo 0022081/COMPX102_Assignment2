@@ -51,6 +51,10 @@ namespace Assignment2
         private Button buttonNextTurn;
         // Index of the player whose hand supplied the selected dinosaur.
         private int selectedPlayerIndex = -1;
+        // Clean copy of player one's board image, redrawn from each time so highlights can be removed.
+        private Bitmap player1BoardBackground;
+        // Clean copy of player two's board image.
+        private Bitmap player2BoardBackground;
 
         /// <summary>
         /// Creates a new game, initializes its players, and clears the current selection.
@@ -65,6 +69,9 @@ namespace Assignment2
             selectedDino = null;
             selectedPen = null;
             selectedPlayerIndex = -1;
+
+            // Clear the previous game's die result
+            labelRollResult.Text = "Roll Result";
         }
 
         /// <summary>
@@ -84,6 +91,12 @@ namespace Assignment2
             {
                 g1.Clear(Color.Transparent);
                 game.players[0].DrawDinoHand(g1, pictureBoxPlayer2Hand.Width);
+
+                // Draw a green border around the currently selected dino
+                if (selectedDino != null && game.players[0].DinoHandList.Contains(selectedDino))
+                {
+                    selectedDino.DrawSelection(g1);
+                }
             }
 
             using (Graphics g2 = Graphics.FromImage(pictureBoxPlayer2Hand.Image))
@@ -96,35 +109,98 @@ namespace Assignment2
             pictureBoxPlayer1Hand.Refresh();
             pictureBoxPlayer2Hand.Refresh();
 
-            // Draw the boards for both players
-            //pictureBoxPlayer1Board.Image = new Bitmap(Properties.Resources.Board);
-            using (Graphics g = Graphics.FromImage(pictureBoxPlayer1Board.Image))
-            {
-                foreach (Pen pen in game.players[0].Zoo.PenList)
-                {
-                    pen.Draw(g); // Draw each pen at its predefined location
-                }
-                game.players[0].Zoo.DisplayRiver(g);
-            }
+            // Draw the boards for both players. Pens that are valid for the selected dino get a green border.
+            List<Pen> validPens = game.GetValidPlayerPens(selectedDino);
+            // The river is always a valid placement, so it is highlighted whenever a dino can be placed.
+            bool riverValid = selectedDino != null && game.CanPlayerPlace;
+            RedrawBoard(pictureBoxPlayer1Board, player1BoardBackground, game.players[0], validPens, riverValid);
+            RedrawBoard(pictureBoxPlayer2Board, player2BoardBackground, game.players[1], null, false);
 
-            //pictureBoxPlayer2Board.Image = new Bitmap(Properties.Resources.Board);
-            using (Graphics g = Graphics.FromImage(pictureBoxPlayer2Board.Image))
-            {
-                foreach (Pen pen in game.players[1].Zoo.PenList)
-                {
-                    pen.Draw(g); // Draw each pen at its predefined location
-                }
-                game.players[1].Zoo.DisplayRiver(g);
-            }
             // Update the players boards
             pictureBoxPlayer2Board.Refresh();
             pictureBoxPlayer1Board.Refresh();
 
 
-            labelTurnResult.Text = game.turnNumber.ToString() + " /6";
-            labelRoundResult.Text = game.roundNumber.ToString() + " /4";
-            buttonRoll.Enabled = game.RollerIndex == 0 && !game.HasRolled;
+            labelTurnResult.Text = Math.Min(game.turnNumber + 1, Game.TurnsPerRound).ToString() + " /" + Game.TurnsPerRound;
+            labelRoundResult.Text = game.roundNumber.ToString() + " /" + Game.TotalRounds;
+            buttonRoll.Enabled = !game.GameOver && game.RollerIndex == 0 && !game.HasRolled;
             UpdatePlayerActionLabel();
+        }
+
+        /// <summary>
+        /// Redraws a board from its clean background so old highlights never remain on screen.
+        /// </summary>
+        /// <param name="box">Picture box showing the board.</param>
+        /// <param name="background">Clean copy of the board image.</param>
+        /// <param name="player">Player who owns the board.</param>
+        /// <param name="highlighted">Pens to outline in green, or null for none.</param>
+        /// <param name="highlightRiver">Whether to outline the river in green.</param>
+        private void RedrawBoard(PictureBox box, Bitmap background, Player player, List<Pen> highlighted, bool highlightRiver)
+        {
+            Bitmap frame = new Bitmap(background);
+            using (Graphics g = Graphics.FromImage(frame))
+            {
+                foreach (Pen pen in player.Zoo.PenList)
+                {
+                    pen.Draw(g); // Draw each pen at its predefined location
+                    if (highlighted != null && highlighted.Contains(pen))
+                    {
+                        pen.DrawHighlight(g);
+                    }
+                }
+                player.Zoo.DisplayRiver(g);
+                if (highlightRiver)
+                {
+                    player.Zoo.HighlightRiver(g);
+                }
+            }
+
+            Image old = box.Image;
+            box.Image = frame;
+            if (old != null && old != background)
+            {
+                old.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Clears the selected dino (and pen) and redraws so the green borders disappear.
+        /// </summary>
+        private void ClearSelection()
+        {
+            if (selectedDino == null && selectedPen == null)
+                return;
+
+            selectedDino = null;
+            selectedPen = null;
+            selectedPlayerIndex = -1;
+
+            if (game != null)
+                DisplayGame();
+        }
+
+        /// <summary>
+        /// Deselects the current dino when the player clicks anywhere else on the form.
+        /// </summary>
+        private void DeselectOnClick(object sender, EventArgs e)
+        {
+            ClearSelection();
+        }
+
+        /// <summary>
+        /// Hooks the deselect click handler to every control except the ones that handle
+        /// their own clicks (player one's hand and board).
+        /// </summary>
+        private void HookDeselectClicks(Control parent)
+        {
+            foreach (Control c in parent.Controls)
+            {
+                if (c != pictureBoxPlayer1Hand && c != pictureBoxPlayer1Board)
+                {
+                    c.Click += DeselectOnClick;
+                }
+                HookDeselectClicks(c);
+            }
         }
 
         /// <summary>
@@ -136,9 +212,21 @@ namespace Assignment2
             {
                 labelPlayerDo.Text = "Player 1: Start game";
             }
+            else if (game.GameOver)
+            {
+                labelPlayerDo.Text = "Game over";
+            }
+            else if (game.AwaitingDiscard)
+            {
+                labelPlayerDo.Text = "Player 1: Discard a dino";
+            }
             else if (game.RollerIndex == 0 && !game.HasRolled)
             {
                 labelPlayerDo.Text = "Player 1: Roll the dice";
+            }
+            else if (game.RollerIndex == 1 && !game.HasRolled)
+            {
+                labelPlayerDo.Text = "AI: Click Next Turn to roll";
             }
             else if (game.RollerIndex == 0 && game.HasRolled && game.RollerPlacementComplete)
             {
@@ -161,22 +249,67 @@ namespace Assignment2
                 return;
 
             PictureBox pb = (PictureBox)sender;
-            int playerIndex = pb == pictureBoxPlayer1Hand ? 0 : 1;
 
-            if (playerIndex != 0 || !game.HasRolled)
+            // Clicking the opponent's hand is handled by the general deselect click handler
+            if (pb != pictureBoxPlayer1Hand)
                 return;
 
             // find which dino in the player's hand was clicked
-            foreach (Dino d in game.players[playerIndex].DinoHandList)
+            Dino clickedDino = null;
+            foreach (Dino d in game.players[0].DinoHandList)
             {
                 if (d.IsClicked(e.X, e.Y))
                 {
-                    selectedDino = d;
-                    selectedPlayerIndex = playerIndex;
-                    // optionally provide feedback to the user (e.g. redraw with selection)
-                    return;
+                    clickedDino = d;
+                    break;
                 }
             }
+
+            // Discard phase: the clicked dino goes back in the box
+            if (game.AwaitingDiscard)
+            {
+                if (clickedDino != null && game.DiscardPlayerDino(clickedDino))
+                {
+                    selectedDino = null;
+                    selectedPen = null;
+                    selectedPlayerIndex = -1;
+                    DisplayGame();
+
+                    // The last discard of the last round finishes the game
+                    if (game.GameOver)
+                    {
+                        game.EndGame();
+                    }
+                }
+                return;
+            }
+
+            if (!game.CanPlayerPlace)
+            {
+                ClearSelection();
+                return;
+            }
+
+            // Clicking empty space in the hand deselects
+            if (clickedDino == null)
+            {
+                ClearSelection();
+                return;
+            }
+
+            // Clicking the selected dino again deselects it; clicking another dino switches to it
+            if (clickedDino == selectedDino)
+            {
+                selectedDino = null;
+                selectedPlayerIndex = -1;
+            }
+            else
+            {
+                selectedDino = clickedDino;
+                selectedPlayerIndex = 0;
+            }
+            selectedPen = null;
+            DisplayGame();
         }
 
         /// <summary>
@@ -186,12 +319,14 @@ namespace Assignment2
         /// <param name="e">Mouse coordinates of the click.</param>
         private void pictureBoxBoard_MouseClick(object sender, MouseEventArgs e)
         {
-            Console.WriteLine(e.X.ToString() + ", " + e.Y.ToString());
-
-            if (selectedDino == null || selectedPlayerIndex != 0 || !game.HasRolled)
+            if (game == null)
                 return;
 
+            // Clicking the opponent's board is handled by the general deselect click handler
             if (sender != pictureBoxPlayer1Board)
+                return;
+
+            if (selectedDino == null || selectedPlayerIndex != 0 || !game.CanPlayerPlace)
                 return;
 
             // River is drawn at x 300-340, y 0-600
@@ -224,11 +359,15 @@ namespace Assignment2
                     }
                     else
                     {
+                        selectedPen = null;
                         MessageBox.Show("That dino cannot be placed in this pen.");
                     }
                     return;
                 }
             }
+
+            // The click was on the board but not on a pen or the river, so deselect the dino
+            ClearSelection();
         }
 
         /// <summary>
@@ -237,6 +376,11 @@ namespace Assignment2
         public Game_form()
         {
             InitializeComponent();
+
+            // keep clean copies of the board images so the boards can be redrawn without old highlights
+            player1BoardBackground = pictureBoxPlayer1Board.Image != null ? new Bitmap(pictureBoxPlayer1Board.Image) : new Bitmap(600, 600);
+            player2BoardBackground = pictureBoxPlayer2Board.Image != null ? new Bitmap(pictureBoxPlayer2Board.Image) : new Bitmap(600, 600);
+
             // wire mouse event handlers for selecting dinos and placing them on the board
             pictureBoxPlayer1Hand.MouseClick += pictureBoxPlayerHand_MouseClick;
             pictureBoxPlayer2Hand.MouseClick += pictureBoxPlayerHand_MouseClick;
@@ -246,6 +390,9 @@ namespace Assignment2
             this.buttonNextTurn.Click += new EventHandler(this.buttonNextTurn_Click);
             this.buttonStart.Click += new EventHandler(this.buttonStartGame_Click);
             this.buttonRoll.Click += new EventHandler(this.buttonRoll_Click);
+            // clicking anywhere else on the form deselects the selected dino
+            this.Click += DeselectOnClick;
+            HookDeselectClicks(this);
         }
 
         /// <summary>
@@ -260,8 +407,21 @@ namespace Assignment2
                 MessageBox.Show("Game not started");
                 return;
             }
-                
 
+            if (game.GameOver)
+            {
+                MessageBox.Show("The game is over. Press Start to play again.");
+                return;
+            }
+
+            // Both players must put a dino back in the box before the hands are passed on
+            if (game.AwaitingDiscard)
+            {
+                MessageBox.Show("Click a dino in your hand to discard it before continuing.");
+                return;
+            }
+
+            // Human rolled and placed: the AI places next. The human then discards.
             if (game.RollerIndex == 0 && game.HasRolled && game.RollerPlacementComplete && !game.TurnComplete)
             {
                 if (!game.PlaceAiDino(false))
@@ -270,14 +430,14 @@ namespace Assignment2
                     return;
                 }
 
+                selectedDino = null;
+                selectedPen = null;
+                selectedPlayerIndex = -1;
                 DisplayGame();
-
-                if (!game.TurnComplete)
-                {
-                    return;
-                }
+                return;
             }
 
+            // Otherwise it is the AI's turn to roll and place
             if (!game.BeginAiTurn())
             {
                 DisplayGame();

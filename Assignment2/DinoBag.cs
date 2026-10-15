@@ -37,7 +37,7 @@ namespace Assignment2
             // Create a new list to hold the drawn dinos
             List<Dino> drawnDinos = new List<Dino>();
             // Randomly select 'count' number of dinos from the dinoList
-            Random rand = new Random();
+            Random rand = Game.Rng;
             for (int i = 0; i < count; i++)
             {
                 if (dinoList.Count == 0)

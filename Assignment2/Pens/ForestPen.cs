@@ -30,8 +30,9 @@ namespace Assignment2
 
         public override int CalculatePoints()
         {
-            // Calculate points based on the number of dinos in the pen (does not care about species)
-            Points = DinoList.Count;
+            // Forest of Sameness scoring table (rulebook): 1 to 6 dinos = 2, 4, 8, 12, 18, 24 points
+            int[] table = { 0, 2, 4, 8, 12, 18, 24 };
+            Points = table[Math.Min(DinoList.Count, table.Length - 1)];
             return Points;
         }
 
@@ -44,13 +45,11 @@ namespace Assignment2
             }
             else
             {
-                // If species of selected dino currently already in forest pen, restrict placement. 
-                foreach(Dino d in dinoList)
+                // Forest of Sameness: the pen can only hold dinosaurs of the SAME species,
+                // so reject a dino whose species differs from the ones already in the pen.
+                if (dinoList.Count > 0 && dinoList[0].Species != dino.Species)
                 {
-                    if (dino.Species == d.Species)
-                    {
-                        return false;
-                    }    
+                    return false;
                 }
 
                 if(unrestricted)

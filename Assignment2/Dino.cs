@@ -73,6 +73,19 @@ namespace Assignment2
         }
 
         /// <summary>
+        /// Draws a green border around the dinosaur to show it is the selected dinosaur.
+        /// </summary>
+        /// <param name="g"></param>
+        public void DrawSelection(Graphics g)
+        {
+            // System.Drawing.Pen must be fully qualified because this project has its own Pen class
+            using (System.Drawing.Pen border = new System.Drawing.Pen(Color.LimeGreen, 3))
+            {
+                g.DrawRectangle(border, XPos - 3, YPos - 3, DINO_SIZE + 6, DINO_SIZE + 6);
+            }
+        }
+
+        /// <summary>
         /// Draws the dinosaur on the provided graphics object.
         /// </summary>
         /// <param name="g"></param>
@@ -94,11 +107,18 @@ namespace Assignment2
                 case DinoSpecies.Stegosaurus:
                     brush = Brushes.Orange;
                     break;
+                case DinoSpecies.Allosaurus:
+                    brush = Brushes.Purple;
+                    break;
+                case DinoSpecies.Dilophosaurus:
+                    brush = Brushes.Cyan;
+                    break;
                 default:
                     brush = Brushes.Gray;
                     break;
             }
             g.FillRectangle(brush, XPos, YPos, DINO_SIZE, DINO_SIZE);
+            g.DrawRectangle(Pens.Black, XPos, YPos, DINO_SIZE, DINO_SIZE);
 
         }
     }

@@ -42,7 +42,7 @@ namespace Assignment2
         /// <returns>PlacementCondition of the rolled type</returns>
         public PlacementCondition Roll()
         {
-            Random rand = new Random();
+            Random rand = Game.Rng;
             int rollIndex = rand.Next(rollTypes.Count);
             currentCondition = rollTypes[rollIndex];
             return currentCondition;

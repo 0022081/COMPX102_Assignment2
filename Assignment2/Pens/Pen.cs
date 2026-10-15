@@ -195,6 +195,19 @@ namespace Assignment2
         public abstract void AddDino(Dino dino);
 
         /// <summary>
+        /// Draws a visible green border around the pen to show it is a valid placement.
+        /// </summary>
+        /// <param name="g">Graphics surface on which to draw.</param>
+        public void DrawHighlight(Graphics g)
+        {
+            // System.Drawing.Pen must be fully qualified because this project has its own Pen class
+            using (System.Drawing.Pen highlight = new System.Drawing.Pen(Color.LimeGreen, 4))
+            {
+                g.DrawRectangle(highlight, XPos, YPos, Width, Height);
+            }
+        }
+
+        /// <summary>
         /// Draws the pen and its contents on the graphics object
         /// </summary>
         /// <param name="g">Graphics surface on which to draw.</param>

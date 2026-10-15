@@ -33,7 +33,7 @@ namespace Assignment2
         public Board()
         {
             // create pens
-            ForestPen forestPen = new ForestPen("Forest", "Left", "Woodlands", 8, 150, 210, 15, 15);
+            ForestPen forestPen = new ForestPen("Forest", "Left", "Woodlands", 6, 150, 210, 15, 15);
             MeadowPen meadowPen = new MeadowPen("Meadow", "Right", "Grasslands", 6, 140, 225, 350, 230);
             PrairiePen prairiePen = new PrairiePen("Prairie", "Left", "Grasslands", 10, 175, 150, 45, 390);
             WoodyPen woodyPen = new WoodyPen("Woody", "Left", "Woodlands", 3, 150, 165, 35, 230);
@@ -98,6 +98,15 @@ namespace Assignment2
         /// Display river pen
         /// </summary>
         /// <param name="g">Graphics surface on which to draw the river.</param>
+        public void HighlightRiver(Graphics g)
+        {
+            river.DrawHighlight(g);
+        }
+
+        /// <summary>
+        /// Draws the river and the dinosaurs in it.
+        /// </summary>
+        /// <param name="g">Graphics surface on which to draw.</param>
         public void DisplayRiver(Graphics g)
         {
             river.Draw(g);

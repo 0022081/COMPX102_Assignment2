@@ -30,8 +30,9 @@ namespace Assignment2
 
         public override int CalculatePoints()
         {
-            // Calculate points based on the number of dinos in the pen (does not care about species)
-            Points = DinoList.Count;
+            // Meadow of Differences scoring table (rulebook): 1 to 6 dinos = 1, 3, 6, 10, 15, 21 points
+            int[] table = { 0, 1, 3, 6, 10, 15, 21 };
+            Points = table[Math.Min(DinoList.Count, table.Length - 1)];
             return Points;
         }
 

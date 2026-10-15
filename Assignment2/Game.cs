@@ -34,8 +34,18 @@ namespace Assignment2
         private bool turnComplete;
         // Whether the roller has placed their dinosaur.
         private bool rollerPlacementComplete;
+        // Whether the final turn of the final round has been completed.
+        private bool gameOver;
+        // Whether both players have placed and the human must now discard a dinosaur.
+        private bool awaitingDiscard;
         // Number of turns in each round.
-        private const int TurnsPerRound = 3;
+        public const int TurnsPerRound = 3;
+        // Number of rounds in a two player game.
+        public const int TotalRounds = 4;
+        // One shared random number generator for the whole game (bag draws, dice rolls, AI choices).
+        // Creating a new Random() for every draw re-seeds it from the clock, so draws made at nearly
+        // the same moment repeat the same sequence and give the two players near-identical hands.
+        public static readonly Random Rng = new Random();
         // Number of dinosaurs dealt to each player.
         private const int DinosPerHand = 6;
 
@@ -68,6 +78,28 @@ namespace Assignment2
             get { return rollerPlacementComplete; }
         }
 
+        // Indicates that all rounds have been played and the game is finished.
+        public bool GameOver
+        {
+            get { return gameOver; }
+        }
+
+        // Indicates that both players have placed and the human must choose a dinosaur to discard.
+        public bool AwaitingDiscard
+        {
+            get { return awaitingDiscard; }
+        }
+
+        // Indicates whether the human player may place a dinosaur right now.
+        public bool CanPlayerPlace
+        {
+            get
+            {
+                return !gameOver && hasRolled && !turnComplete && !awaitingDiscard
+                    && !(rollerIndex == 0 && rollerPlacementComplete);
+            }
+        }
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Game"/> class.
@@ -91,7 +123,8 @@ namespace Assignment2
             players.Add(player2);
 
             bag.CreateBag(new Dino(DinoSpecies.T_Rex, 0, 0));
-            roundNumber = 0;
+            roundNumber = 1;
+            gameOver = false;
         }
 
         /// <summary>
@@ -103,6 +136,10 @@ namespace Assignment2
             // Roll the dice to determine the placement condition for this turn
             currentCondition = dice.Roll();
             hasRolled = true;
+            // A new roll always starts a new turn, so clear the previous turn's completion flags.
+            turnComplete = false;
+            rollerPlacementComplete = false;
+            awaitingDiscard = false;
             return currentCondition;
         }
 
@@ -125,6 +162,8 @@ namespace Assignment2
             hasRolled = false;
             turnComplete = false;
             rollerPlacementComplete = false;
+            awaitingDiscard = false;
+            gameOver = false;
             return true;
         }
 
@@ -136,9 +175,8 @@ namespace Assignment2
         /// <returns><c>true</c> when the dinosaur was placed.</returns>
         public bool PlacePlayerDino(Dino selectedDino, Pen pen)
         {
-            if (!hasRolled || turnComplete || (rollerIndex == 0 && rollerPlacementComplete))
+            if (!CanPlayerPlace)
             {
-                MessageBox.Show("Player has already rolled / Completed turn / roller index out of range & roller has placed");
                 return false;
             }
 
@@ -146,18 +184,82 @@ namespace Assignment2
             bool unrestricted = rollerIndex == 0;
             bool placed = AttemptPlaceDino(0, selectedDino, pen, unrestricted);
 
-            if (placed && rollerIndex == 1)
+            if (placed)
             {
-                rollerIndex = 0;
-                hasRolled = false;
-                CompleteTurn();
-            }
-            else if (placed)
-            {
-                rollerPlacementComplete = true;
+                OnPlayerPlaced();
             }
 
             return placed;
+        }
+
+        /// <summary>
+        /// Updates the turn state after the human player has placed a dinosaur.
+        /// </summary>
+        private void OnPlayerPlaced()
+        {
+            if (rollerIndex == 1)
+            {
+                // The AI rolled and has already placed, so both players have now placed.
+                awaitingDiscard = true;
+            }
+            else
+            {
+                // The human rolled; the AI still needs to place.
+                rollerPlacementComplete = true;
+            }
+        }
+
+        /// <summary>
+        /// Returns the pens in the human player's zoo where the dinosaur can legally be placed right now.
+        /// </summary>
+        /// <param name="dino">Dinosaur being tested.</param>
+        /// <returns>Valid pens, or an empty list when the player cannot place.</returns>
+        public List<Pen> GetValidPlayerPens(Dino dino)
+        {
+            List<Pen> validPens = new List<Pen>();
+            if (dino == null || !CanPlayerPlace)
+            {
+                return validPens;
+            }
+
+            // The roller ignores the die; the other player must obey it. Pen rules always apply.
+            bool unrestricted = rollerIndex == 0;
+            foreach (Pen pen in players[0].Zoo.PenList)
+            {
+                if (players[0].checkDinoPlacement(dino, currentCondition, pen, unrestricted))
+                {
+                    validPens.Add(pen);
+                }
+            }
+            return validPens;
+        }
+
+        /// <summary>
+        /// The human discards a dinosaur from their hand (it goes back in the box), then the AI
+        /// discards one too and the hands are passed on.
+        /// </summary>
+        /// <param name="dino">Dinosaur from the human player's hand to discard.</param>
+        /// <returns><c>true</c> when the discard was completed.</returns>
+        public bool DiscardPlayerDino(Dino dino)
+        {
+            if (!awaitingDiscard || dino == null || !players[0].DinoHandList.Contains(dino))
+            {
+                return false;
+            }
+
+            // Discarded dinosaurs are removed from the game (put back in the box).
+            players[0].DinoHandList.Remove(dino);
+
+            Dino aiDiscard = aiStrategy.ChooseDiscard(players[1], players[0]);
+            if (aiDiscard != null)
+            {
+                players[1].DinoHandList.Remove(aiDiscard);
+            }
+
+            awaitingDiscard = false;
+
+            CompleteTurn();
+            return true;
         }
 
         /// <summary>
@@ -167,7 +269,7 @@ namespace Assignment2
         /// <returns></returns>
         public bool PlaceAiDino(bool unrestricted)
         {
-            if ((unrestricted && rollerPlacementComplete) || turnComplete)
+            if ((unrestricted && rollerPlacementComplete) || turnComplete || awaitingDiscard || gameOver)
             {
                 MessageBox.Show("AI turn has already completed. Cannot run again");
                 return false;
@@ -194,7 +296,8 @@ namespace Assignment2
                 return false;
             }
 
-            if (!unrestricted) { CompleteTurn(); }
+            // The AI was the non roller, so both players have placed and the discard phase begins.
+            if (!unrestricted) { awaitingDiscard = true; }
             else { rollerPlacementComplete = true; }
             return true;
         }
@@ -205,13 +308,12 @@ namespace Assignment2
         /// <returns></returns>
         public bool BeginAiTurn()
         {
-            if (rollerIndex != 0 || !turnComplete || !hasRolled)
+            // The AI can only roll when it is the AI's turn to roll and it has not rolled yet.
+            if (gameOver || awaitingDiscard || rollerIndex != 1 || hasRolled)
             {
                 return false;
             }
 
-            rollerIndex = 1;
-            turnComplete = false;
             rollerPlacementComplete = false;
             RollDice();
             return PlaceAiDino(true);
@@ -222,25 +324,34 @@ namespace Assignment2
         /// </summary>
         private void CompleteTurn()
         {
-            // Both placements are complete, so advance the turn before checking the round boundary.
+            // Both players have placed and discarded, so advance the turn.
             turnNumber++;
             rollerPlacementComplete = false;
+            awaitingDiscard = false;
+            turnComplete = false;
+            hasRolled = false;
+
+            // The players take turns rolling the die, including across round boundaries.
+            rollerIndex = 1 - rollerIndex;
 
             if (turnNumber >= TurnsPerRound)
             {
-                // Start the next round with fresh hands and reset turn ownership.
+                // The last round is over: the game is finished.
+                if (roundNumber >= TotalRounds)
+                {
+                    gameOver = true;
+                    return;
+                }
+
+                // Start the next round with fresh hands.
                 roundNumber++;
                 DealHands();
                 turnNumber = 0;
-                rollerIndex = 0;
-                hasRolled = false;
-                turnComplete = false;
                 return;
             }
 
             // Both players have placed, so pass their remaining hands to each other.
             SwapHands();
-            turnComplete = true;
         }
 
         /// <summary>
@@ -260,7 +371,7 @@ namespace Assignment2
         /// </summary>
         public bool CheckRound()
         {
-            if (roundNumber > 4)
+            if (roundNumber > TotalRounds)
             {
                 return false;
             }
@@ -277,7 +388,7 @@ namespace Assignment2
         /// <returns><c>true</c> when the dinosaur was moved to the river.</returns>
         public bool PlacePlayerDinoRiver(Dino dino)
         {
-            if (dino == null || !hasRolled || turnComplete || (rollerIndex == 0 && rollerPlacementComplete))
+            if (dino == null || !CanPlayerPlace)
                 return false;
 
             // River placement follows the same roller/non-roller state transition as pen placement.
@@ -287,16 +398,7 @@ namespace Assignment2
             dino.YPos = 10 + (p.Zoo.RiverCount * 25);
             p.Zoo.AddDinoRiver(dino);
 
-            if (rollerIndex == 1)
-            {
-                rollerIndex = 0;
-                hasRolled = false;
-                CompleteTurn();
-            }
-            else
-            {
-                rollerPlacementComplete = true;
-            }
+            OnPlayerPlaced();
             return true;
         }
 
@@ -332,36 +434,59 @@ namespace Assignment2
             Player player = players[0];
             Player opponent = players[1];
 
-            int playerTotal = 0;
-            int opponentTotal = 0;
+            int playerTotal = CalculateTotalPoints(player, opponent);
+            int opponentTotal = CalculateTotalPoints(opponent, player);
+
+            // Find winner or draw. A tie is broken by whoever has the fewest T-Rexes.
+            if (playerTotal == opponentTotal)
+            {
+                int playerRex = player.Zoo.CountSpecies(DinoSpecies.T_Rex);
+                int opponentRex = opponent.Zoo.CountSpecies(DinoSpecies.T_Rex);
+
+                if (playerRex < opponentRex)
+                {
+                    MessageBox.Show($"Winner: Player 1 (tie-break: fewest T-Rexes)\nPlayer 1: {playerTotal} points\nAI Player: {opponentTotal} points");
+                    return;
+                }
+                if (opponentRex < playerRex)
+                {
+                    MessageBox.Show($"Winner: AI Player (tie-break: fewest T-Rexes)\nPlayer 1: {playerTotal} points\nAI Player: {opponentTotal} points");
+                    return;
+                }
+
+                MessageBox.Show($"Draw - the players share the win\nPlayer 1: {playerTotal} points\nAI Player: {opponentTotal} points");
+                return;
+            }
+
+            string winner = playerTotal > opponentTotal ? "Player 1" : "AI Player";
+            MessageBox.Show($"Winner: {winner}\nPlayer 1: {playerTotal} points\nAI Player: {opponentTotal} points");
+        }
+
+        /// <summary>
+        /// Adds up a player's pen points, the T-Rex bonus for each pen holding a T-Rex, and the river points.
+        /// </summary>
+        /// <param name="owner">Player being scored.</param>
+        /// <param name="opponent">The other player (needed for King of the Jungle).</param>
+        /// <returns>The player's total victory points.</returns>
+        public int CalculateTotalPoints(Player owner, Player opponent)
+        {
+            int total = 0;
 
             // Context-aware scoring is required for pens that compare both zoos.
-            foreach (Pen pen in player.Zoo.PenList)
+            foreach (Pen pen in owner.Zoo.PenList)
             {
-                playerTotal += pen.CalculatePoints(player.Zoo, opponent.Zoo);
-            }
-            playerTotal += player.Zoo.RiverPoints;
+                total += pen.CalculatePoints(owner.Zoo, opponent.Zoo);
 
-            foreach (Pen pen in opponent.Zoo.PenList)
-            {
-                opponentTotal += pen.CalculatePoints(opponent.Zoo, player.Zoo);
-            }
-            opponentTotal += opponent.Zoo.RiverPoints;
-
-            // Find winner or draw
-            if (playerTotal > opponentTotal)
-            {
-                MessageBox.Show($"Winner: Player 1 Total Points: {playerTotal}");
-            }
-            else if (playerTotal < opponentTotal)
-            {
-                MessageBox.Show($"Winner: AI Player Total Points: {opponentTotal}");
-            }
-            else
-            {
-                MessageBox.Show($"Draw Player Points: {playerTotal} AI Points: {opponentTotal}");
+                // Each pen containing at least one T-Rex scores 1 extra point (once per pen).
+                if (pen.HasTRex())
+                {
+                    total += 1;
+                }
             }
 
+            // The river is not a pen: 1 point per dinosaur in it.
+            total += owner.Zoo.RiverPoints;
+            return total;
         }
     }
 

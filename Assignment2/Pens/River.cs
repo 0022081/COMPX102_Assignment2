@@ -48,6 +48,20 @@ namespace Assignment2
         }
 
         /// <summary>
+        /// Draws a visible green border around the river to show it is a valid placement.
+        /// </summary>
+        /// <param name="g">Graphics surface on which to draw.</param>
+        public void DrawHighlight(Graphics g)
+        {
+            // System.Drawing.Pen must be fully qualified because this project has its own Pen class.
+            // The border is inset slightly so it is not clipped by the edges of the board image.
+            using (System.Drawing.Pen highlight = new System.Drawing.Pen(Color.LimeGreen, 4))
+            {
+                g.DrawRectangle(highlight, 302, 2, 36, 596);
+            }
+        }
+
+        /// <summary>
         /// Draws the pen and its contents on the graphics object
         /// </summary>
         /// <param name="g"></param>

@@ -24,7 +24,7 @@ namespace Assignment2
     class AiStrategy
     {
         // Shared random so results are not repeated
-        private static readonly Random rand = new Random();
+        private static readonly Random rand = Game.Rng;
 
         // Chance (0-1) that the AI plays a random move from its top 3 instead of the best one
         private const double MistakeChance = 0.25;
@@ -74,6 +74,43 @@ namespace Assignment2
                 return ranked[rand.Next(Math.Min(3, ranked.Count))];
             }
             return ranked[0];
+        }
+
+        /// <summary>
+        /// Chooses which dinosaur the AI puts back in the box after placing.
+        /// The hand is passed to the opponent next, so the AI discards the dinosaur
+        /// that would be most valuable to the opponent's zoo.
+        /// </summary>
+        /// <param name="ai">The AI player</param>
+        /// <param name="opponent">The human player who will receive the rest of the hand</param>
+        /// <returns>The dinosaur to discard, or null when the hand is empty.</returns>
+        public Dino ChooseDiscard(Player ai, Player opponent)
+        {
+            Dino best = null;
+            double bestValue = double.MinValue;
+
+            // Shuffle first so equal values are not always discarded in the same order.
+            foreach (Dino dino in ai.DinoHandList.OrderBy(d => rand.Next()).ToList())
+            {
+                // The opponent can always use the river
+                double value = ScoreRiver(dino);
+
+                foreach (Pen pen in opponent.Zoo.PenList)
+                {
+                    // The die is not known yet, so assume the opponent could use any pen
+                    if (IsLegal(opponent, dino, pen, PlacementCondition.Woodlands, true))
+                    {
+                        value = Math.Max(value, ScorePen(opponent, ai, dino, pen));
+                    }
+                }
+
+                if (value > bestValue)
+                {
+                    bestValue = value;
+                    best = dino;
+                }
+            }
+            return best;
         }
 
         /// <summary>
